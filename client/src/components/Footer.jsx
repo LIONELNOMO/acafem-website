@@ -18,6 +18,7 @@ const quickLinks = [
     { name: 'Actualités', path: '/actualites' },
     { name: 'Forum', path: '/forum' },
     { name: 'Contact', path: '/contact' },
+    { name: 'Espace Admin', path: '/admin' },
 ]
 
 const services = [

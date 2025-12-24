@@ -8,6 +8,7 @@ import News from './pages/News'
 import Forum from './pages/Forum'
 import Donate from './pages/Donate'
 import Contact from './pages/Contact'
+import Admin from './pages/Admin'
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                     <Route path="/forum" element={<Forum />} />
                     <Route path="/don" element={<Donate />} />
                     <Route path="/contact" element={<Contact />} />
+                    <Route path="/admin" element={<Admin />} />
                 </Routes>
             </main>
             <Footer />
