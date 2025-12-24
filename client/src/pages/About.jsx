@@ -8,7 +8,10 @@ import {
     Calendar,
     MapPin,
     Clock,
-    Building2
+    Building2,
+    Globe,
+    AlertTriangle,
+    Shield
 } from 'lucide-react'
 
 function About() {
@@ -122,33 +125,191 @@ function About() {
                 </div>
             </section>
 
-            {/* Mission & Vision */}
+            {/* Vision & Objectifs Stratégiques 2025-2028 */}
             <section className="py-24">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid lg:grid-cols-2 gap-16">
-                        <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-3xl p-10">
-                            <div className="w-16 h-16 bg-primary-500 rounded-2xl flex items-center justify-center mb-6">
-                                <Target className="text-white" size={32} />
+                    <div className="text-center mb-16">
+                        <span className="text-primary-500 font-semibold text-sm uppercase tracking-wider">Plan Stratégique</span>
+                        <h2 className="section-title mt-2">Vision & Objectifs 2025-2028</h2>
+                        <div className="w-24 h-1 bg-secondary-500 mx-auto rounded-full mt-4"></div>
+                    </div>
+
+                    <div className="grid lg:grid-cols-2 gap-12 mb-16">
+                        {/* Vision Card */}
+                        <div className="bg-gradient-to-br from-primary-600 to-primary-700 rounded-3xl p-10 text-white shadow-xl relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                                <Eye size={120} />
                             </div>
-                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Notre Mission</h2>
-                            <p className="text-gray-700 leading-relaxed">
-                                L'ACAFEM œuvre à l'amélioration de la santé reproductive et sexuelle des populations
-                                camerounaises à travers la promotion, l'éducation à la santé, le plaidoyer et les
-                                services. Nous nous engageons à offrir des soins de qualité accessibles à tous.
-                            </p>
+                            <div className="relative z-10">
+                                <div className="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-semibold mb-6">
+                                    <Target className="mr-2" size={16} />
+                                    Vision 2025-2028
+                                </div>
+                                <h3 className="text-2xl md:text-3xl font-bold mb-6 leading-tight">
+                                    "Leadership féminin et solidarité des femmes médecins au service de la santé et de l'éthique"
+                                </h3>
+                                <div className="space-y-6">
+                                    <div>
+                                        <h4 className="font-bold text-primary-200 mb-2 uppercase tracking-wide text-sm">Notre But</h4>
+                                        <p className="text-white/90 leading-relaxed">
+                                            Contribuer à l'amélioration de la santé des populations camerounaises et des conditions de travail de la femme médecin.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <h4 className="font-bold text-primary-200 mb-2 uppercase tracking-wide text-sm">Objectif Général</h4>
+                                        <p className="text-white/90 leading-relaxed">
+                                            Contribuer d'ici 2030 à l'amélioration du bien-être de la femme médecin/étudiante de dernière année de médecine et de la population générale.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-secondary-50 to-secondary-100 rounded-3xl p-10">
-                            <div className="w-16 h-16 bg-secondary-500 rounded-2xl flex items-center justify-center mb-6">
-                                <Eye className="text-white" size={32} />
+                        {/* Ancrage Institutionnel */}
+                        <div className="bg-white rounded-3xl p-10 shadow-lg border border-gray-100 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-secondary-50 rounded-bl-full"></div>
+                            <h3 className="text-2xl font-bold text-gray-900 mb-8 flex items-center">
+                                <Building2 className="mr-3 text-secondary-500" />
+                                Ancrage Institutionnel
+                            </h3>
+
+                            <div className="space-y-8">
+                                <div className="flex items-start">
+                                    <div className="flex-shrink-0 w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center text-primary-600 mr-4">
+                                        <Globe size={24} />
+                                    </div>
+                                    <div>
+                                        <h4 className="font-bold text-gray-900 text-lg mb-2">Plan AIFM 2020-2025</h4>
+                                        <p className="text-gray-600 bg-gray-50 p-4 rounded-lg border-l-4 border-primary-500 italic">
+                                            "Une humanité : des solutions de santé grâce à nos partenariats"
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start">
+                                    <div className="flex-shrink-0 w-12 h-12 bg-secondary-100 rounded-xl flex items-center justify-center text-secondary-600 mr-4">
+                                        <CheckCircle size={24} />
+                                    </div>
+                                    <div>
+                                        <h4 className="font-bold text-gray-900 text-lg mb-2">Stratégie Nationale (SND-30)</h4>
+                                        <p className="text-gray-600">
+                                            Alignement complet avec la Stratégie Nationale de Développement 2020-2030 du Cameroun pour un impact durable.
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Notre Vision</h2>
-                            <p className="text-gray-700 leading-relaxed">
-                                Nous aspirons à un Cameroun où chaque femme, chaque famille, a accès à des soins
-                                de santé reproductive de qualité. Un pays où l'éducation à la santé est une
-                                priorité et où les droits des femmes sont pleinement respectés.
-                            </p>
                         </div>
+                    </div>
+
+                    {/* Structure Organisationnelle */}
+                    <div className="bg-gray-50 rounded-3xl p-8 md:p-12">
+                        <div className="text-center mb-12">
+                            <h3 className="text-2xl font-bold text-gray-900">Notre Organisation</h3>
+                            <p className="text-gray-600 mt-2">Une structure solide pour soutenir nos actions</p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {/* AG */}
+                            <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-default">
+                                <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 mb-4">
+                                    <Users size={20} />
+                                </div>
+                                <h4 className="font-bold text-gray-900 mb-2">Assemblée Générale</h4>
+                                <p className="text-sm text-gray-600">Plus haute autorité, réunion annuelle de tous les membres.</p>
+                            </div>
+
+                            {/* Comité Exécutif */}
+                            <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-default">
+                                <div className="w-10 h-10 bg-secondary-100 rounded-full flex items-center justify-center text-secondary-600 mb-4">
+                                    <Award size={20} />
+                                </div>
+                                <h4 className="font-bold text-gray-900 mb-2">Comité Exécutif</h4>
+                                <p className="text-sm text-gray-600">Organe de direction élu pour le mandat 2025-2028.</p>
+                            </div>
+
+                            {/* Conseil Consultatif */}
+                            <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-default">
+                                <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 mb-4">
+                                    <Users size={20} />
+                                </div>
+                                <h4 className="font-bold text-gray-900 mb-2">Conseil Consultatif</h4>
+                                <p className="text-sm text-gray-600">Organe d'orientation et de conseil stratégique.</p>
+                            </div>
+
+                            {/* Branches */}
+                            <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-default">
+                                <div className="w-10 h-10 bg-accent-100 rounded-full flex items-center justify-center text-accent-600 mb-4">
+                                    <MapPin size={20} />
+                                </div>
+                                <h4 className="font-bold text-gray-900 mb-2">6 Branches Régionales</h4>
+                                <p className="text-sm text-gray-600">Centre-Sud, Littoral-SO, Nord-Ouest, Ouest, Est, Nord.</p>
+                            </div>
+                        </div>
+
+                        {/* Comités Spéciaux */}
+                        <div className="mt-8 pt-8 border-t border-gray-200">
+                            <h4 className="text-lg font-bold text-gray-900 mb-6 text-center">4 Comités d'Intérêt Spéciaux (2025-2028)</h4>
+                            <div className="flex flex-wrap justify-center gap-4">
+                                {['Gouvernance', 'Recherche scientifique et éthique', 'Socialisation', 'Recherche de financement'].map((comite, idx) => (
+                                    <span key={idx} className="bg-white border border-gray-200 px-4 py-2 rounded-lg text-sm font-medium text-gray-700 shadow-sm flex items-center">
+                                        <div className="w-2 h-2 bg-secondary-500 rounded-full mr-2"></div>
+                                        {comite}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            {/* Engagement - Pratiques Néfastes */}
+            <section className="py-24 bg-red-50 relative overflow-hidden">
+                {/* Decorative background element */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-red-100 rounded-bl-full opacity-50"></div>
+
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="text-center mb-16">
+                        <div className="inline-flex items-center justify-center p-3 bg-red-100 rounded-full mb-4 text-red-600">
+                            <Shield size={32} />
+                        </div>
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Notre combat contre les pratiques néfastes</h2>
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                            Depuis sa création, l'ACAFEM mène des enquêtes sanitaires rigoureuses mettant en lumière et combattant les traditions dangereuses pour la santé.
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {/* Carte Principale - Excision */}
+                        <div className="lg:col-span-3 bg-white rounded-2xl p-8 shadow-lg border-l-8 border-red-500 flex flex-col md:flex-row items-center gap-8">
+                            <div className="flex-shrink-0 bg-red-100 p-6 rounded-full">
+                                <AlertTriangle className="text-red-600" size={48} />
+                            </div>
+                            <div className="flex-1 text-center md:text-left">
+                                <h3 className="text-2xl font-bold text-gray-900 mb-2">Lutte contre l'Excision</h3>
+                                <p className="text-gray-600 text-lg">
+                                    Nous combattons activement les mutilations génitales féminines et leurs conséquences dévastatrices sur la santé physique et psychologique des femmes.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Autres pratiques */}
+                        {[
+                            { title: "Pratiques post-partum à risque", desc: "Massages à l'eau chaude et risques hémorragiques" },
+                            { title: "Malnutrition culturelle", desc: "Restrictions alimentaires privant la femme de nutriments essentiels" },
+                            { title: "Mariages précoces", desc: "Lutte contre le mariage des adolescentes" },
+                            { title: "Addictions juvéniles", desc: "Consommation de drogue par les jeunes" },
+                            { title: "Allaitement", desc: "Problèmes liés à l'allaitement maternel" },
+                            { title: "Santé sexuelle", desc: "Lutte contre les MST et le VIH/SIDA" }
+                        ].map((item, index) => (
+                            <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all hover:-translate-y-1 group border border-red-100">
+                                <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center text-red-600 mb-4 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                                    <AlertTriangle size={20} />
+                                </div>
+                                <h4 className="font-bold text-gray-900 mb-2">{item.title}</h4>
+                                <p className="text-gray-600 text-sm">{item.desc}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>

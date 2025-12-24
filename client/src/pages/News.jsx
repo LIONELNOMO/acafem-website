@@ -1,283 +1,231 @@
 import { useState } from 'react'
 import {
     Calendar,
-    Clock,
-    User,
+    Tag,
     ArrowRight,
     Search,
-    Tag
+    Filter,
+    Award,
+    Users,
+    BookOpen,
+    Megaphone
 } from 'lucide-react'
 
+// Catégories
+const categories = [
+    "Toutes",
+    "Événements",
+    "Comptes-rendus",
+    "Publications",
+    "Nominations",
+    "Partenariats",
+    "Formations",
+    "Candidatures"
+]
+
+// Données des articles actualisées avec les demandes
 const newsData = [
     {
         id: 1,
-        title: 'L\'ACAFEM lance sa nouvelle campagne nationale de dépistage',
-        excerpt: 'Une initiative majeure pour améliorer l\'accès au dépistage du cancer du col de l\'utérus dans toutes les régions du Cameroun.',
-        content: 'Lorem ipsum dolor sit amet...',
-        category: 'Santé',
-        author: 'Dr. Marie Nkolo',
-        date: '15 Décembre 2024',
-        readTime: '5 min',
-        image: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&h=400&fit=crop',
-        featured: true
+        title: "Plan Stratégique ACAFEM 2025-2028 : Une nouvelle ère pour le leadership féminin en santé",
+        excerpt: "Lancement officiel de notre feuille de route pour les 3 prochaines années. Découvrez nos 3 axes stratégiques, nos objectifs chiffrés et la mobilisation pour l'élection du nouveau Comité Exécutif.",
+        category: "Événements",
+        date: "20 Décembre 2024",
+        author: "Comité Exécutif",
+        image: "https://images.unsplash.com/photo-1577962917302-cd874c4e31d2?w=1200&h=600&fit=crop", // Image "Meeting stratégique"
+        featured: true,
+        tags: ["Stratégie", "Leadership", "Avenir"]
     },
     {
         id: 2,
-        title: 'Partenariat historique avec l\'OMS pour la santé maternelle',
-        excerpt: 'L\'ACAFEM signe un accord de collaboration avec l\'Organisation Mondiale de la Santé pour renforcer ses programmes.',
-        content: 'Lorem ipsum dolor sit amet...',
-        category: 'Partenariat',
-        author: 'Bureau ACAFEM',
-        date: '10 Décembre 2024',
-        readTime: '3 min',
-        image: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&h=400&fit=crop',
-        featured: false
+        title: "Préparation du 2ème Congrès National des Femmes Médecins",
+        excerpt: "En route vers 2030 : l'ACAFEM prépare son grand rassemblement scientifique. Appel à communications ouvert pour toutes les membres.",
+        category: "Événements",
+        date: "15 Janvier 2025",
+        author: "Comité Scientifique",
+        image: "https://images.unsplash.com/photo-1544531586-fde5298cdd40?w=600&h=400&fit=crop", // Conférence
+        featured: false,
+        tags: ["Congrès", "Science"]
     },
     {
         id: 3,
-        title: 'Formation de 200 sages-femmes dans la région de l\'Ouest',
-        excerpt: 'Un programme intensif de formation continue pour améliorer les compétences des professionnels de santé.',
-        content: 'Lorem ipsum dolor sit amet...',
-        category: 'Formation',
-        author: 'Dr. Jeanne Fotso',
-        date: '5 Décembre 2024',
-        readTime: '4 min',
-        image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&h=400&fit=crop',
-        featured: false
+        title: "Formation Leadership : 500 nouvelles expertes formées",
+        excerpt: "Retour sur notre session de formation intensive. Thématiques spéciales et développement de carrière au programme pour nos jeunes médecins.",
+        category: "Formations",
+        date: "10 Décembre 2024",
+        author: "Pôle Formation",
+        image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=400&fit=crop", // Femme noire leader
+        featured: false,
+        tags: ["Formation", "Mentorat"]
     },
     {
         id: 4,
-        title: 'Journée mondiale de lutte contre le SIDA : l\'ACAFEM mobilisée',
-        excerpt: 'Notre association a organisé des séances de sensibilisation et de dépistage gratuit dans 5 villes du pays.',
-        content: 'Lorem ipsum dolor sit amet...',
-        category: 'Événement',
-        author: 'Bureau ACAFEM',
-        date: '1 Décembre 2024',
-        readTime: '6 min',
-        image: 'https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=800&h=400&fit=crop',
-        featured: false
+        title: "Plaidoyer : Forum de haut niveau sur la santé maternelle",
+        excerpt: "L'ACAFEM porte la voix des femmes médecins auprès des instances gouvernementales pour réduire la mortalité maternelle.",
+        category: "Comptes-rendus",
+        date: "05 Décembre 2024",
+        author: "Commission Plaidoyer",
+        image: "https://images.unsplash.com/photo-1576091160550-217358c71619?w=600&h=400&fit=crop", // Professionnels santé
+        featured: false,
+        tags: ["Plaidoyer", "Santé Publique"]
     },
     {
         id: 5,
-        title: 'Rapport d\'impact 2023 : des résultats exceptionnels',
-        excerpt: 'Découvrez les réalisations de l\'ACAFEM au cours de l\'année écoulée et notre impact sur les communautés.',
-        content: 'Lorem ipsum dolor sit amet...',
-        category: 'Rapport',
-        author: 'Bureau ACAFEM',
-        date: '25 Novembre 2024',
-        readTime: '8 min',
-        image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&h=400&fit=crop',
-        featured: false
+        title: "Bienvenue à nos nouveaux membres !",
+        excerpt: "L'ACAFEM s'agrandit ! Nous visons 244 membres d'ici 2028. Découvrez les profils de celles qui nous ont rejoints ce mois-ci.",
+        category: "Nominations",
+        date: "01 Décembre 2024",
+        author: "Secrétariat Général",
+        image: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=600&h=400&fit=crop", // Groupe femmes
+        featured: false,
+        tags: ["Membership", "Communauté"]
     },
     {
         id: 6,
-        title: 'L\'ACAFEM au Forum National de la Santé',
-        excerpt: 'Notre présidente a présenté nos recommandations pour améliorer les politiques de santé reproductive.',
-        content: 'Lorem ipsum dolor sit amet...',
-        category: 'Événement',
-        author: 'Dr. Marie Nkolo',
-        date: '20 Novembre 2024',
-        readTime: '5 min',
-        image: 'https://images.unsplash.com/photo-1584515933487-779824d29309?w=800&h=400&fit=crop',
-        featured: false
+        title: "Partenariat international avec l'AIFM",
+        excerpt: "Renforcement de notre collaboration avec l'Association Internationale des Femmes Médecins pour des projets d'envergure.",
+        category: "Partenariats",
+        date: "28 Novembre 2024",
+        author: "Relations Internationales",
+        image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=400&fit=crop", // Poignée de main / Monde
+        featured: false,
+        tags: ["International", "Coopération"]
     }
 ]
 
-const categories = ['Tous', 'Santé', 'Formation', 'Partenariat', 'Événement', 'Rapport']
-
 function News() {
-    const [selectedCategory, setSelectedCategory] = useState('Tous')
-    const [searchTerm, setSearchTerm] = useState('')
+    const [activeCategory, setActiveCategory] = useState("Toutes")
+    const featuredArticle = newsData.find(item => item.featured)
+    const otherArticles = newsData.filter(item => !item.featured)
 
-    const featuredNews = newsData.find(n => n.featured)
-    const regularNews = newsData.filter(n => !n.featured)
-
-    const filteredNews = regularNews.filter(news => {
-        const matchesCategory = selectedCategory === 'Tous' || news.category === selectedCategory
-        const matchesSearch = news.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            news.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
-        return matchesCategory && matchesSearch
-    })
+    const filteredArticles = activeCategory === "Toutes"
+        ? otherArticles
+        : otherArticles.filter(item => item.category === activeCategory)
 
     return (
-        <div className="pt-20">
-            {/* Hero */}
-            <section className="bg-gradient-to-br from-primary-600 to-secondary-600 py-24">
+        <div className="pt-20 bg-gray-50 min-h-screen">
+            {/* Hero Section */}
+            <section className="bg-gradient-to-br from-primary-900 to-secondary-900 py-16 text-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                        Actualités
-                    </h1>
-                    <p className="text-xl text-white/80 max-w-3xl mx-auto">
-                        Restez informé des dernières nouvelles et activités de l'ACAFEM.
+                    <h1 className="text-4xl md:text-5xl font-heading font-bold mb-4">Actualités & Événements</h1>
+                    <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+                        Restez informée des dernières actions, réalisations et annonces de l'ACAFEM.
                     </p>
                 </div>
             </section>
 
-            {/* Featured Article */}
-            {featuredNews && (
-                <section className="py-16 bg-gray-50">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="bg-white rounded-3xl overflow-hidden shadow-xl">
-                            <div className="grid lg:grid-cols-2">
-                                <div className="relative h-64 lg:h-auto">
-                                    <img
-                                        src={featuredNews.image}
-                                        alt={featuredNews.title}
-                                        className="absolute inset-0 w-full h-full object-cover"
-                                    />
-                                    <div className="absolute top-4 left-4">
-                                        <span className="px-4 py-2 bg-accent-500 text-white text-sm font-bold rounded-full">
-                                            À la Une
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="p-8 lg:p-12 flex flex-col justify-center">
-                                    <div className="flex items-center space-x-4 text-sm text-gray-500 mb-4">
-                                        <span className="px-3 py-1 bg-primary-100 text-primary-600 rounded-full font-medium">
-                                            {featuredNews.category}
-                                        </span>
-                                        <div className="flex items-center">
-                                            <Calendar size={16} className="mr-1" />
-                                            {featuredNews.date}
-                                        </div>
-                                    </div>
-                                    <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-                                        {featuredNews.title}
-                                    </h2>
-                                    <p className="text-gray-600 text-lg mb-6">
-                                        {featuredNews.excerpt}
-                                    </p>
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center space-x-3">
-                                            <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
-                                                <User size={20} className="text-primary-600" />
-                                            </div>
-                                            <div>
-                                                <div className="font-medium text-gray-900">{featuredNews.author}</div>
-                                                <div className="text-sm text-gray-500 flex items-center">
-                                                    <Clock size={14} className="mr-1" />
-                                                    {featuredNews.readTime} de lecture
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button className="btn-primary">
-                                            Lire l'article
-                                            <ArrowRight size={18} className="ml-2" />
-                                        </button>
-                                    </div>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                {/* Featured Article */}
+                {activeCategory === "Toutes" && featuredArticle && (
+                    <div className="mb-16">
+                        <div className="text-primary-600 font-bold tracking-wide uppercase text-sm mb-4 flex items-center">
+                            <Megaphone size={16} className="mr-2" />
+                            À la une • Article Stratégique
+                        </div>
+                        <article className="bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow flex flex-col md:flex-row group cursor-pointer">
+                            <div className="md:w-1/2 relative overflow-hidden">
+                                <img
+                                    src={featuredArticle.image}
+                                    alt={featuredArticle.title}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                />
+                                <div className="absolute top-4 left-4 bg-primary-600 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">
+                                    {featuredArticle.category}
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </section>
-            )}
-
-            {/* Filters */}
-            <section className="py-8 bg-white border-b">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        {/* Search */}
-                        <div className="relative flex-1 max-w-md">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                            <input
-                                type="text"
-                                placeholder="Rechercher un article..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"
-                            />
-                        </div>
-
-                        {/* Category Filter */}
-                        <div className="flex items-center space-x-2 overflow-x-auto pb-2 md:pb-0">
-                            <Tag size={20} className="text-gray-400 flex-shrink-0" />
-                            {categories.map((category) => (
-                                <button
-                                    key={category}
-                                    onClick={() => setSelectedCategory(category)}
-                                    className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${selectedCategory === category
-                                            ? 'bg-primary-500 text-white'
-                                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                        }`}
-                                >
-                                    {category}
+                            <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                                <div className="flex items-center text-gray-500 text-sm mb-4">
+                                    <Calendar size={16} className="mr-2" />
+                                    {featuredArticle.date}
+                                    <span className="mx-2">•</span>
+                                    <Users size={16} className="mr-2" />
+                                    {featuredArticle.author}
+                                </div>
+                                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight group-hover:text-primary-600 transition-colors">
+                                    {featuredArticle.title}
+                                </h2>
+                                <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                                    {featuredArticle.excerpt}
+                                </p>
+                                <div className="flex flex-wrap gap-2 mb-8">
+                                    {featuredArticle.tags.map(tag => (
+                                        <span key={tag} className="px-3 py-1 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium">
+                                            #{tag}
+                                        </span>
+                                    ))}
+                                </div>
+                                <button className="inline-flex items-center text-primary-600 font-bold hover:text-primary-700 text-lg group-hover:translate-x-2 transition-transform">
+                                    Lire l'article complet
+                                    <ArrowRight size={20} className="ml-2" />
                                 </button>
-                            ))}
-                        </div>
+                            </div>
+                        </article>
+                    </div>
+                )}
+
+                {/* Filters */}
+                <div className="mb-12 border-b border-gray-200 pb-4 overflow-x-auto">
+                    <div className="flex space-x-2 md:space-x-4 min-w-max">
+                        {categories.map(cat => (
+                            <button
+                                key={cat}
+                                onClick={() => setActiveCategory(cat)}
+                                className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${activeCategory === cat
+                                    ? 'bg-primary-600 text-white shadow-lg shadow-primary-200'
+                                    : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+                                    }`}
+                            >
+                                {cat}
+                            </button>
+                        ))}
                     </div>
                 </div>
-            </section>
 
-            {/* News Grid */}
-            <section className="py-16">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    {filteredNews.length === 0 ? (
-                        <div className="text-center py-16">
-                            <p className="text-gray-500 text-lg">Aucun article trouvé.</p>
-                        </div>
-                    ) : (
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {filteredNews.map((news) => (
-                                <article key={news.id} className="card group cursor-pointer">
-                                    <div className="relative overflow-hidden">
-                                        <img
-                                            src={news.image}
-                                            alt={news.title}
-                                            className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
-                                        />
-                                        <div className="absolute top-4 left-4">
-                                            <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-primary-600 text-xs font-medium rounded-full">
-                                                {news.category}
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div className="p-6">
-                                        <div className="flex items-center space-x-4 text-sm text-gray-500 mb-3">
-                                            <div className="flex items-center">
-                                                <Calendar size={14} className="mr-1" />
-                                                {news.date}
-                                            </div>
-                                            <div className="flex items-center">
-                                                <Clock size={14} className="mr-1" />
-                                                {news.readTime}
-                                            </div>
-                                        </div>
-
-                                        <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
-                                            {news.title}
-                                        </h3>
-                                        <p className="text-gray-600 text-sm line-clamp-2 mb-4">
-                                            {news.excerpt}
-                                        </p>
-
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center space-x-2">
-                                                <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-                                                    <User size={16} className="text-gray-500" />
-                                                </div>
-                                                <span className="text-sm text-gray-600">{news.author}</span>
-                                            </div>
-                                            <ArrowRight size={18} className="text-primary-500 group-hover:translate-x-1 transition-transform" />
-                                        </div>
-                                    </div>
-                                </article>
-                            ))}
-                        </div>
-                    )}
-
-                    {/* Pagination */}
-                    <div className="flex justify-center mt-12">
-                        <div className="flex items-center space-x-2">
-                            <button className="w-10 h-10 rounded-lg bg-primary-500 text-white font-medium">1</button>
-                            <button className="w-10 h-10 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 font-medium">2</button>
-                            <button className="w-10 h-10 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 font-medium">3</button>
-                            <span className="px-2 text-gray-400">...</span>
-                            <button className="w-10 h-10 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 font-medium">10</button>
-                        </div>
-                    </div>
+                {/* News Grid */}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredArticles.map(article => (
+                        <article key={article.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 group border border-gray-100">
+                            <div className="relative h-56 overflow-hidden">
+                                <img
+                                    src={article.image}
+                                    alt={article.title}
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                />
+                                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur text-primary-700 px-3 py-1 rounded-full text-xs font-bold uppercase shadow-sm">
+                                    {article.category}
+                                </div>
+                            </div>
+                            <div className="p-6">
+                                <div className="flex items-center text-gray-400 text-xs mb-3">
+                                    <Calendar size={14} className="mr-1" />
+                                    {article.date}
+                                </div>
+                                <h3 className="text-xl font-bold text-gray-900 mb-3 leading-snug group-hover:text-primary-600 transition-colors line-clamp-2">
+                                    {article.title}
+                                </h3>
+                                <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                                    {article.excerpt}
+                                </p>
+                                <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
+                                    <span className="text-xs font-medium text-gray-500">Par {article.author}</span>
+                                    <button className="text-primary-600 hover:text-primary-700 font-medium text-sm flex items-center">
+                                        Lire plus <ArrowRight size={14} className="ml-1" />
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                    ))}
                 </div>
-            </section>
+
+                {/* Empty State */}
+                {filteredArticles.length === 0 && (
+                    <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-300">
+                        <BookOpen size={48} className="mx-auto text-gray-300 mb-4" />
+                        <h3 className="text-lg font-bold text-gray-900">Aucune actualité trouvée</h3>
+                        <p className="text-gray-500">Essayez de sélectionner une autre catégorie.</p>
+                    </div>
+                )}
+            </div>
         </div>
     )
 }

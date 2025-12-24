@@ -1,278 +1,252 @@
-import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import {
     Heart,
-    CreditCard,
-    Smartphone,
-    Shield,
-    CheckCircle,
     Users,
+    GraduationCap,
+    Baby,
+    Shield,
+    Leaf,
+    Globe,
+    Smartphone,
+    TrendingUp,
+    CheckCircle,
+    CreditCard,
+    Calendar,
     BookOpen,
-    Stethoscope,
-    ArrowRight
+    Target,
+    HeartHandshake,
+    Share2,
+    Award,
+    Building2
 } from 'lucide-react'
 
-const donationAmounts = [5000, 10000, 25000, 50000, 100000]
+// Impacts des dons
+const impactCategories = [
+    {
+        title: "Pour les Femmes Médecins",
+        icon: <Users className="w-8 h-8" />,
+        color: "primary",
+        impacts: [
+            { text: "Formation de 500 femmes médecins sur le leadership", number: "500" },
+            { text: "Formation de 500 étudiantes en fin de cycle", number: "500" },
+            { text: "Mentorat pour 50 jeunes professionnelles", number: "50" },
+            { text: "Organisation de 2 congrès nationaux", number: "2" },
+            { text: "Publication du Manuel sur le leadership des femmes en santé", number: "1" }
+        ]
+    },
+    {
+        title: "Pour la Population",
+        icon: <Heart className="w-8 h-8" />,
+        color: "red",
+        impacts: [
+            { text: "Réduction de la mortalité maternelle et infantile", icon: <Baby size={16} /> },
+            { text: "Amélioration de la santé reproductive", icon: <Heart size={16} /> },
+            { text: "Lutte contre les violences faites aux femmes", icon: <Shield size={16} /> },
+            { text: "Actions face au changement climatique", icon: <Leaf size={16} /> }
+        ]
+    },
+    {
+        title: "Pour la Profession",
+        icon: <Award className="w-8 h-8" />,
+        color: "secondary",
+        impacts: [
+            { text: "Création du Répertoire en ligne des Femmes Médecins", icon: <Globe size={16} /> },
+            { text: "Plaidoyer pour combler l'écart salarial de 24%", icon: <TrendingUp size={16} /> },
+            { text: "Accès aux technologies numériques", icon: <Smartphone size={16} /> },
+            { text: "Représentation féminine : de 25% à 50% aux postes de direction", icon: <Target size={16} /> }
+        ]
+    }
+]
 
-const impactExamples = [
-    { amount: '5 000 FCFA', impact: 'Permet un dépistage gratuit pour une femme' },
-    { amount: '10 000 FCFA', impact: 'Finance une consultation prénatale complète' },
-    { amount: '25 000 FCFA', impact: 'Offre un kit d\'accouchement sécurisé' },
-    { amount: '50 000 FCFA', impact: 'Forme une sage-femme pendant une journée' },
-    { amount: '100 000 FCFA', impact: 'Équipe une clinique mobile pour une mission' },
+// Options de don
+const donationOptions = [
+    {
+        title: "Don Ponctuel",
+        description: "Un geste unique pour soutenir nos actions immédiates.",
+        icon: <CreditCard className="w-10 h-10 text-primary-500" />,
+        cta: "Faire un don"
+    },
+    {
+        title: "Don Mensuel",
+        description: "Un soutien régulier pour nous permettre de planifier sur le long terme.",
+        icon: <Calendar className="w-10 h-10 text-secondary-500" />,
+        cta: "Devenir donateur mensuel"
+    },
+    {
+        title: "Parrainage Formation",
+        description: "Financez directement la formation d'une femme médecin ou étudiante.",
+        icon: <GraduationCap className="w-10 h-10 text-yellow-500" />,
+        cta: "Parrainer une formation"
+    },
+    {
+        title: "Soutien à un Projet",
+        description: "Choisissez un axe stratégique spécifique à soutenir.",
+        icon: <Target className="w-10 h-10 text-accent-500" />,
+        cta: "Choisir un projet"
+    }
+]
+
+// Autres formes de soutien
+const otherSupport = [
+    { icon: <Users size={24} />, title: "Devenir membre actif", desc: "Rejoignez notre réseau de femmes médecins engagées." },
+    { icon: <Building2 size={24} />, title: "Partenariat institutionnel", desc: "Entreprises et organisations, collaborons ensemble." },
+    { icon: <BookOpen size={24} />, title: "Offrir votre expertise", desc: "Mentorat, formation, conseil... Partagez vos compétences." },
+    { icon: <Share2 size={24} />, title: "Partager nos actions", desc: "Relayez nos actualités sur vos réseaux sociaux." }
 ]
 
 function Donate() {
-    const [selectedAmount, setSelectedAmount] = useState(10000)
-    const [customAmount, setCustomAmount] = useState('')
-    const [paymentMethod, setPaymentMethod] = useState('mobile')
-    const [donationType, setDonationType] = useState('once')
-
-    const handleAmountSelect = (amount) => {
-        setSelectedAmount(amount)
-        setCustomAmount('')
-    }
-
-    const handleCustomAmount = (e) => {
-        setCustomAmount(e.target.value)
-        setSelectedAmount(null)
-    }
-
-    const currentAmount = customAmount || selectedAmount
-
     return (
-        <div className="pt-20">
-            {/* Hero */}
-            <section className="bg-gradient-to-br from-accent-500 to-accent-600 py-20 relative overflow-hidden">
-                {/* Decorative */}
-                <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
-
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-                    <Heart className="mx-auto text-white/80 mb-6" size={56} />
-                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                        Faites un Don
-                    </h1>
-                    <p className="text-xl text-white/80 max-w-3xl mx-auto">
-                        Votre générosité permet à l'ACAFEM de continuer sa mission et d'aider
-                        des milliers de femmes camerounaises chaque année.
+        <div className="pt-20 bg-gray-50 min-h-screen">
+            {/* Hero Section */}
+            <section className="relative bg-gradient-to-br from-primary-700 via-primary-600 to-secondary-600 py-24 text-white overflow-hidden">
+                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=1600&h=900&fit=crop')] bg-cover bg-center opacity-10"></div>
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                    <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full mb-8">
+                        <Heart className="w-10 h-10 text-white" />
+                    </div>
+                    <h1 className="text-4xl md:text-5xl font-bold mb-6">Soutenez l'ACAFEM</h1>
+                    <p className="text-xl md:text-2xl text-primary-100 leading-relaxed max-w-3xl mx-auto">
+                        "Votre soutien permet à l'ACAFEM de poursuivre ses missions au service de la santé des femmes camerounaises et du leadership féminin en santé."
                     </p>
                 </div>
             </section>
 
-            {/* Main Content */}
-            <section className="py-16">
+            {/* Section 1: Pourquoi nous soutenir */}
+            <section className="py-20">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid lg:grid-cols-3 gap-12">
-                        {/* Donation Form */}
-                        <div className="lg:col-span-2">
-                            <div className="bg-white rounded-3xl shadow-xl p-8">
-                                <h2 className="text-2xl font-bold text-gray-900 mb-8">
-                                    Choisissez votre don
-                                </h2>
+                    <div className="text-center mb-16">
+                        <span className="text-primary-600 font-semibold text-sm uppercase tracking-wider">Impact de votre don</span>
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2">Pourquoi nous soutenir ?</h2>
+                        <div className="w-24 h-1 bg-secondary-500 mx-auto rounded-full mt-4"></div>
+                    </div>
 
-                                {/* Donation Type */}
-                                <div className="mb-8">
-                                    <label className="block text-sm font-medium text-gray-700 mb-3">
-                                        Type de don
-                                    </label>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <button
-                                            onClick={() => setDonationType('once')}
-                                            className={`p-4 rounded-xl border-2 transition-all ${donationType === 'once'
-                                                    ? 'border-primary-500 bg-primary-50'
-                                                    : 'border-gray-200 hover:border-gray-300'
-                                                }`}
-                                        >
-                                            <div className="font-semibold text-gray-900">Don unique</div>
-                                            <div className="text-sm text-gray-500">Contribution ponctuelle</div>
-                                        </button>
-                                        <button
-                                            onClick={() => setDonationType('monthly')}
-                                            className={`p-4 rounded-xl border-2 transition-all ${donationType === 'monthly'
-                                                    ? 'border-primary-500 bg-primary-50'
-                                                    : 'border-gray-200 hover:border-gray-300'
-                                                }`}
-                                        >
-                                            <div className="font-semibold text-gray-900">Don mensuel</div>
-                                            <div className="text-sm text-gray-500">Soutien régulier</div>
-                                        </button>
-                                    </div>
+                    <div className="grid lg:grid-cols-3 gap-8">
+                        {impactCategories.map((cat, idx) => (
+                            <div key={idx} className={`bg-white rounded-3xl p-8 shadow-lg border-t-4 border-${cat.color}-500 hover:shadow-xl transition-shadow`}>
+                                <div className={`inline-flex items-center justify-center w-16 h-16 bg-${cat.color}-100 text-${cat.color}-600 rounded-2xl mb-6`}>
+                                    {cat.icon}
                                 </div>
-
-                                {/* Amount Selection */}
-                                <div className="mb-8">
-                                    <label className="block text-sm font-medium text-gray-700 mb-3">
-                                        Montant du don (FCFA)
-                                    </label>
-                                    <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 mb-4">
-                                        {donationAmounts.map((amount) => (
-                                            <button
-                                                key={amount}
-                                                onClick={() => handleAmountSelect(amount)}
-                                                className={`py-3 px-4 rounded-xl font-semibold transition-all ${selectedAmount === amount
-                                                        ? 'bg-primary-500 text-white shadow-lg'
-                                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                                    }`}
-                                            >
-                                                {amount.toLocaleString()}
-                                            </button>
-                                        ))}
-                                    </div>
-                                    <div className="relative">
-                                        <input
-                                            type="number"
-                                            placeholder="Autre montant"
-                                            value={customAmount}
-                                            onChange={handleCustomAmount}
-                                            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"
-                                        />
-                                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
-                                            FCFA
-                                        </span>
-                                    </div>
-                                </div>
-
-                                {/* Payment Method */}
-                                <div className="mb-8">
-                                    <label className="block text-sm font-medium text-gray-700 mb-3">
-                                        Méthode de paiement
-                                    </label>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <button
-                                            onClick={() => setPaymentMethod('mobile')}
-                                            className={`p-4 rounded-xl border-2 flex items-center space-x-4 transition-all ${paymentMethod === 'mobile'
-                                                    ? 'border-primary-500 bg-primary-50'
-                                                    : 'border-gray-200 hover:border-gray-300'
-                                                }`}
-                                        >
-                                            <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
-                                                <Smartphone className="text-yellow-600" size={24} />
+                                <h3 className="text-xl font-bold text-gray-900 mb-6">{cat.title}</h3>
+                                <ul className="space-y-4">
+                                    {cat.impacts.map((impact, i) => (
+                                        <li key={i} className="flex items-start">
+                                            <div className={`flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-${cat.color}-100 text-${cat.color}-600 mr-3`}>
+                                                {impact.number ? (
+                                                    <span className="text-xs font-bold">{impact.number}</span>
+                                                ) : (
+                                                    impact.icon
+                                                )}
                                             </div>
-                                            <div className="text-left">
-                                                <div className="font-semibold text-gray-900">Mobile Money</div>
-                                                <div className="text-sm text-gray-500">MTN MoMo, Orange Money</div>
-                                            </div>
-                                        </button>
-                                        <button
-                                            onClick={() => setPaymentMethod('card')}
-                                            className={`p-4 rounded-xl border-2 flex items-center space-x-4 transition-all ${paymentMethod === 'card'
-                                                    ? 'border-primary-500 bg-primary-50'
-                                                    : 'border-gray-200 hover:border-gray-300'
-                                                }`}
-                                        >
-                                            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                                                <CreditCard className="text-blue-600" size={24} />
-                                            </div>
-                                            <div className="text-left">
-                                                <div className="font-semibold text-gray-900">Carte bancaire</div>
-                                                <div className="text-sm text-gray-500">Visa, Mastercard</div>
-                                            </div>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                {/* Donor Info (simplified) */}
-                                <div className="mb-8">
-                                    <label className="block text-sm font-medium text-gray-700 mb-3">
-                                        Vos informations
-                                    </label>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <input
-                                            type="text"
-                                            placeholder="Nom complet"
-                                            className="px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"
-                                        />
-                                        <input
-                                            type="email"
-                                            placeholder="Email"
-                                            className="px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"
-                                        />
-                                        <input
-                                            type="tel"
-                                            placeholder="Téléphone"
-                                            className="px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 sm:col-span-2"
-                                        />
-                                    </div>
-                                </div>
-
-                                {/* Submit */}
-                                <button className="w-full btn-primary bg-accent-500 hover:bg-accent-600 py-4 text-lg">
-                                    <Heart size={20} className="mr-2" />
-                                    Donner {currentAmount?.toLocaleString() || '...'} FCFA
-                                    {donationType === 'monthly' && ' / mois'}
-                                </button>
-
-                                {/* Security Notice */}
-                                <div className="mt-6 flex items-center justify-center text-sm text-gray-500">
-                                    <Shield size={16} className="mr-2 text-green-500" />
-                                    Paiement 100% sécurisé
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Sidebar */}
-                        <div className="space-y-8">
-                            {/* Impact Card */}
-                            <div className="bg-gradient-to-br from-primary-500 to-secondary-500 rounded-3xl p-8 text-white">
-                                <h3 className="text-xl font-bold mb-6">Votre impact</h3>
-                                <div className="space-y-4">
-                                    {impactExamples.map((item, index) => (
-                                        <div key={index} className="flex items-start space-x-3">
-                                            <CheckCircle size={20} className="flex-shrink-0 mt-0.5" />
-                                            <div>
-                                                <div className="font-semibold">{item.amount}</div>
-                                                <div className="text-white/80 text-sm">{item.impact}</div>
-                                            </div>
-                                        </div>
+                                            <span className="text-gray-600 text-sm">{impact.text}</span>
+                                        </li>
                                     ))}
-                                </div>
+                                </ul>
                             </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
 
-                            {/* Why Donate */}
-                            <div className="bg-white rounded-3xl shadow-lg p-8">
-                                <h3 className="text-xl font-bold text-gray-900 mb-6">
-                                    Pourquoi nous soutenir ?
+            {/* Section 2: Comment contribuer */}
+            <section className="py-20 bg-white">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16">
+                        <span className="text-secondary-600 font-semibold text-sm uppercase tracking-wider">Faites la différence</span>
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2">Comment contribuer ?</h2>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                        {donationOptions.map((option, idx) => (
+                            <div key={idx} className="bg-gray-50 rounded-2xl p-6 text-center hover:bg-primary-50 transition-colors group cursor-pointer border border-gray-100">
+                                <div className="mb-4 group-hover:scale-110 transition-transform">
+                                    {option.icon}
+                                </div>
+                                <h3 className="text-lg font-bold text-gray-900 mb-2">{option.title}</h3>
+                                <p className="text-gray-600 text-sm mb-4">{option.description}</p>
+                                <button className="w-full py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition-colors">
+                                    {option.cta}
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Transparence */}
+                    <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-3xl p-8 md:p-12 text-white">
+                        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+                            <div className="flex-1">
+                                <h3 className="text-2xl font-bold mb-4 flex items-center">
+                                    <CheckCircle className="mr-3 text-green-400" size={28} />
+                                    Notre engagement de transparence
                                 </h3>
-                                <div className="space-y-6">
-                                    <div className="flex items-start space-x-4">
-                                        <div className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                                            <Users className="text-primary-600" size={20} />
-                                        </div>
-                                        <div>
-                                            <div className="font-semibold text-gray-900">50 000+ bénéficiaires</div>
-                                            <div className="text-sm text-gray-500">Des vies changées grâce à vous</div>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-start space-x-4">
-                                        <div className="w-10 h-10 bg-secondary-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                                            <Stethoscope className="text-secondary-600" size={20} />
-                                        </div>
-                                        <div>
-                                            <div className="font-semibold text-gray-900">100+ médecins</div>
-                                            <div className="text-sm text-gray-500">Une équipe dévouée</div>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-start space-x-4">
-                                        <div className="w-10 h-10 bg-accent-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                                            <BookOpen className="text-accent-600" size={20} />
-                                        </div>
-                                        <div>
-                                            <div className="font-semibold text-gray-900">Transparence totale</div>
-                                            <div className="text-sm text-gray-500">Rapports d'activité publics</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <ul className="space-y-3 text-gray-300">
+                                    <li className="flex items-center">
+                                        <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
+                                        Association dotée de l'autonomie financière
+                                    </li>
+                                    <li className="flex items-center">
+                                        <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
+                                        Présence d'une Commissaire aux Comptes élue
+                                    </li>
+                                    <li className="flex items-center">
+                                        <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
+                                        Rapport financier annuel disponible sur demande
+                                    </li>
+                                    <li className="flex items-center">
+                                        <div className="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
+                                        100% de vos dons servent nos missions
+                                    </li>
+                                </ul>
                             </div>
-
-                            {/* Tax info */}
-                            <div className="bg-gray-100 rounded-2xl p-6">
-                                <h4 className="font-semibold text-gray-900 mb-2">Information fiscale</h4>
-                                <p className="text-sm text-gray-600">
-                                    L'ACAFEM est une association à but non lucratif.
-                                    Un reçu fiscal vous sera envoyé par email.
-                                </p>
+                            <div className="flex-shrink-0 text-center">
+                                <div className="w-32 h-32 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <Award className="w-16 h-16 text-yellow-400" />
+                                </div>
+                                <p className="text-sm text-gray-400">Depuis 1991</p>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Section 3: Autres formes de soutien */}
+            <section className="py-20 bg-gray-50">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl font-bold text-gray-900">Autres formes de soutien</h2>
+                        <p className="text-gray-600 mt-2">Pas seulement financier... Votre engagement compte aussi !</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {otherSupport.map((item, idx) => (
+                            <Link key={idx} to="/contact" className="group">
+                                <div className="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 border border-gray-100 h-full">
+                                    <div className="w-14 h-14 bg-primary-100 text-primary-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+                                        {item.icon}
+                                    </div>
+                                    <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
+                                    <p className="text-gray-600 text-sm">{item.desc}</p>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Final CTA */}
+            <section className="py-20 bg-gradient-to-r from-primary-600 to-secondary-600 text-white">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <HeartHandshake className="w-16 h-16 mx-auto mb-6 text-white/80" />
+                    <h2 className="text-3xl md:text-4xl font-bold mb-6">Ensemble, transformons la santé au Cameroun</h2>
+                    <p className="text-xl text-white/80 mb-8">
+                        Chaque contribution, quelle que soit sa forme, nous rapproche de notre vision : un leadership féminin fort au service de la santé.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button className="px-8 py-4 bg-white text-primary-700 font-bold rounded-xl hover:bg-primary-50 transition-colors shadow-lg">
+                            Faire un don maintenant
+                        </button>
+                        <Link to="/contact" className="px-8 py-4 border-2 border-white text-white font-bold rounded-xl hover:bg-white/10 transition-colors">
+                            Nous contacter
+                        </Link>
                     </div>
                 </div>
             </section>
