@@ -9,6 +9,11 @@ import Forum from './pages/Forum'
 import Donate from './pages/Donate'
 import Contact from './pages/Contact'
 import Admin from './pages/Admin'
+import RegisterMember from './pages/RegisterMember'
+import RegisterStudent from './pages/RegisterStudent'
+import Login from './pages/Login'
+import MemberDashboard from './pages/MemberDashboard'
+import AdminMembers from './pages/AdminMembers'
 
 function App() {
     return (
@@ -24,6 +29,12 @@ function App() {
                     <Route path="/don" element={<Donate />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/admin" element={<Admin />} />
+                    {/* Nouvelles routes d'inscription et connexion */}
+                    <Route path="/inscription-membre" element={<RegisterMember />} />
+                    <Route path="/inscription-etudiant" element={<RegisterStudent />} />
+                    <Route path="/connexion" element={<Login />} />
+                    <Route path="/espace-membre" element={<MemberDashboard />} />
+                    <Route path="/admin-membres" element={<AdminMembers />} />
                 </Routes>
             </main>
             <Footer />
@@ -32,3 +43,4 @@ function App() {
 }
 
 export default App
+

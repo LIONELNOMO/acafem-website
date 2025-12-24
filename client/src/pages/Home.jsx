@@ -494,7 +494,7 @@ function FinalCTASection() {
                             <Stethoscope size={48} className="mx-auto text-secondary-400 mb-6 group-hover:scale-110 transition-transform" />
                             <h3 className="text-xl font-bold text-white mb-3">VOUS ÊTES MÉDECIN ?</h3>
                             <p className="text-white/80 mb-8 leading-relaxed">Rejoignez nos 122 membres et participez à la transformation du secteur.</p>
-                            <Link to="/contact" className="inline-block px-6 py-3 bg-white text-primary-900 font-bold rounded-lg hover:bg-gray-100 transition-colors w-full">
+                            <Link to="/inscription-membre" className="inline-block px-6 py-3 bg-white text-primary-900 font-bold rounded-lg hover:bg-gray-100 transition-colors w-full">
                                 Devenir membre
                             </Link>
                         </div>
@@ -503,7 +503,7 @@ function FinalCTASection() {
                             <BookOpen size={48} className="mx-auto text-yellow-400 mb-6 group-hover:scale-110 transition-transform" />
                             <h3 className="text-xl font-bold text-white mb-3">VOUS ÊTES ÉTUDIANTE ?</h3>
                             <p className="text-white/80 mb-8 leading-relaxed">Bénéficiez de formations, mentorat et opportunités de leadership.</p>
-                            <Link to="/contact" className="inline-block px-6 py-3 bg-white/10 border border-white text-white font-bold rounded-lg hover:bg-white hover:text-primary-900 transition-colors w-full">
+                            <Link to="/inscription-etudiant" className="inline-block px-6 py-3 bg-white/10 border border-white text-white font-bold rounded-lg hover:bg-white hover:text-primary-900 transition-colors w-full">
                                 S'inscrire au programme
                             </Link>
                         </div>

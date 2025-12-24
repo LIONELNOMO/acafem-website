@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Heart, Globe } from 'lucide-react'
+import { Menu, X, Heart, User } from 'lucide-react'
 
 const navLinks = [
     { name: 'Accueil', path: '/' },
@@ -67,10 +67,14 @@ function Navbar() {
 
                     {/* Actions */}
                     <div className="hidden lg:flex items-center space-x-4">
-                        <button className="flex items-center space-x-1 text-sm font-medium text-gray-600 hover:text-primary-600 transition-colors">
-                            <Globe size={18} />
-                            <span>FR</span>
-                        </button>
+                        <Link
+                            to="/connexion"
+                            className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors ${scrolled ? 'text-gray-700 hover:bg-primary-50' : 'text-white/90 hover:bg-white/10'
+                                }`}
+                        >
+                            <User size={18} />
+                            <span>Connexion</span>
+                        </Link>
                         <Link to="/don" className="btn-primary flex items-center space-x-2">
                             <Heart size={18} />
                             <span>Faire un Don</span>
@@ -104,6 +108,14 @@ function Navbar() {
                                 </Link>
                             ))}
                             <hr className="my-2" />
+                            <Link
+                                to="/connexion"
+                                onClick={() => setIsOpen(false)}
+                                className="px-4 py-3 rounded-lg font-medium text-gray-700 hover:bg-primary-50 flex items-center"
+                            >
+                                <User size={18} className="mr-2" />
+                                Connexion
+                            </Link>
                             <Link
                                 to="/don"
                                 onClick={() => setIsOpen(false)}
