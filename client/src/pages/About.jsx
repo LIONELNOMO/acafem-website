@@ -76,8 +76,8 @@ function About() {
 
     const team = [
         { name: 'Pr AGNES ESIENE', role: 'Présidente', image: '/images/IMAGE PRESIDENTE.jpeg' },
-        { name: 'Pr HORTENSE GONSU KAMGA', role: 'Vice-Présidente', image: '/images/equipe.jpg' },
-        { name: 'Dr Lilian Ngwana Ngwongem', role: 'Secrétaire Générale', image: '/images/equipe.jpg' },
+        { name: 'Pr HORTENSE GONSU KAMGA', role: 'Vice-Présidente', image: '/images/Gomsu Hortense.jpeg' },
+        { name: 'Dr Lilian Ngwana Ngwongem', role: 'Secrétaire Générale', image: '/images/Lilian.jpeg' },
         { name: 'Dr Gertrude Mete Ngono', role: 'Secrétaire Générale Adjointe', image: '/images/SECRETAIRE GENERALE.jpeg' },
         { name: 'Dr Annick Ndoumba', role: 'Trésorière', image: '/images/TRESORIERE IMAGE.jpeg' },
         { name: 'Dr Caroline Mvilongo Tsimi', role: 'Trésorière Adjointe', image: '/images/TRESORIERE ADJOINTE.jpeg' },
