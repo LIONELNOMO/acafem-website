@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import GreetingCardPopup from './components/GreetingCardPopup'
 import Home from './pages/Home'
 import About from './pages/About'
 import Projects from './pages/Projects'
@@ -18,6 +19,8 @@ import AdminMembers from './pages/AdminMembers'
 function App() {
     return (
         <div className="min-h-screen flex flex-col">
+            {/* Popup de carte de vœux - s'affiche une fois par jour */}
+            <GreetingCardPopup />
             <Navbar />
             <main className="flex-grow">
                 <Routes>
