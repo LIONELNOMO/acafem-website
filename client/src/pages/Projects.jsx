@@ -23,7 +23,7 @@ const strategicAxes = [
     {
         id: 'axe1',
         title: "Bien-être des Femmes Médecins",
-        shortTitle: "Bien-être Médecins",
+        shortTitle: "Bien-être des Médecins",
         icon: <UserPlus className="w-6 h-6" />,
         color: "primary",
         context: "Au Cameroun, les femmes représentent 70% de la main-d'œuvre en santé, mais seulement 25% des postes de direction sont occupés par des femmes.",
@@ -39,7 +39,7 @@ const strategicAxes = [
                     "Respect de la confidentialité et protection des données",
                     "Système en ligne de demandes d'adhésion (d'ici 2030)"
                 ],
-                target: "Passer de 122 membres (2025) à 244 membres (2028)"
+                target: "Cible : Passer de 122 membres (2025) à 500 membres (2028)",
             },
             {
                 id: "1.2",
@@ -69,7 +69,7 @@ const strategicAxes = [
                 objectives: [
                     "Former 500 femmes médecins sur thématiques spéciales",
                     "Former 500 étudiantes en fin de cycle",
-                    "50 jeunes professionnelles au programme MWIA",
+                    "50 jeunes professionnelles par faculté de médecine",
                     "Manuel sur le leadership des femmes"
                 ]
             },
@@ -104,11 +104,11 @@ const strategicAxes = [
             },
             {
                 id: "2.2",
-                title: "Santé de Reproduction",
+                title: "Santé Globale",
                 icon: <FileHeart className="w-10 h-10 text-secondary-500" />,
                 objective: "Réduire les besoins non satisfaits",
-                context: "Réduction des décès SIDA à 630k (2023), mais défis d'accès persistants",
-                actions: ["Accès aux services de santé reproductive", "Droits sexuels"]
+                context: "Réduction des décès SIDA à 630.000 (2023), mais défis d'accès persistants",
+                actions: ["Accès aux services de santé reproductive", "Droits sexuels", "Santé materno-pédiatrique", "Santé de reproduction", "Santé du sujet âgé"]
             },
             {
                 id: "2.3",

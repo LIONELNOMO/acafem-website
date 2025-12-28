@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
     Heart,
     Target,
@@ -27,49 +28,49 @@ function About() {
             year: '1991-1995',
             title: 'Les fondements',
             president: 'Dr ABENG Barbara',
-            image: 'https://i.pravatar.cc/150?img=47',
+            image: null,
             desc: 'Adoption des statuts et règlement intérieur. Création de relations d\'amitié entre femmes médecins. Début de réflexion sur les questions sanitaires.'
         },
         {
             year: '1995-1998',
             title: 'Recherche et visibilité',
             president: 'Dr Lilian Tendo Wambua & Dr Rosa Befidi Mengue',
-            image: 'https://i.pravatar.cc/150?img=44',
+            image: '/images/lilian tendo.JPG',
             desc: 'Recherche nationale sur les pratiques traditionnelles affectant la santé reproductive. Représentation dans les conférences nationales et internationales.'
         },
         {
             year: '1998-2003',
             title: 'Expansion territoriale',
             president: 'Dr Florence Tumasang',
-            image: 'https://i.pravatar.cc/150?img=45',
+            image: null,
             desc: 'Prévention et promotion de la santé de reproduction. Vulgarisation de l\'agent de santé communautaire. Prévention mère-enfant du VIH. Création des 5 premières branches régionales.'
         },
         {
             year: '2003-2010',
             title: 'Structuration des actions',
             president: 'Dr Adelaide Kouinche',
-            image: 'https://i.pravatar.cc/150?img=43',
+            image: null,
             desc: 'Lutte contre le VIH chez les adolescents. Éducation à la vie familiale. Organisation en 5 axes : renforcement des capacités, formation des formateurs, sensibilisation communautaire.'
         },
         {
             year: '2010-2013',
             title: 'Centres d\'écoute',
             president: 'Dr Julienne Nouthe Djubgang',
-            image: 'https://i.pravatar.cc/150?img=41',
+            image: '/images/dr julienne.JPG',
             desc: 'Renforcement de l\'offre de santé reproductive pour adolescents/jeunes. Création de centres d\'écoute. Système de référence et contre-référence.'
         },
         {
             year: '2013-2024',
             title: 'Mise en réseau et leadership',
             president: 'Pr Anne Esther Njom Nlend',
-            image: 'https://i.pravatar.cc/150?img=49',
+            image: '/images/njom nlend.jpeg',
             desc: 'Mise en réseau des femmes médecins. Plaidoyer et leadership. Partenariats nationaux et internationaux. Nombreuses activités programmatiques.'
         },
         {
             year: '2025-2028',
             title: 'Nouveau mandat',
             president: 'Nouveau Comité Exécutif',
-            image: '/images/equipe.jpg',
+            image: "/images/plan strategique pour l'acafem.jpg",
             desc: 'Élection du nouveau Comité Exécutif (mars 2025). Lancement du Plan Stratégique 2025-2028. Vision : Leadership féminin et solidarité.'
         },
     ]
@@ -84,8 +85,36 @@ function About() {
         { name: 'Dr Christiane Nsahlai', role: 'Commissaire aux Comptes', image: '/images/COMMISSAIRE AU COMPTE.jpeg' },
     ]
 
+    // État pour le modal de visualisation de photo
+    const [selectedImage, setSelectedImage] = useState(null)
+
     return (
         <div className="pt-20">
+            {/* Modal pour afficher la photo en grand */}
+            {selectedImage && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in"
+                    onClick={() => setSelectedImage(null)}
+                >
+                    <div className="relative max-w-3xl max-h-[90vh] animate-scale-in">
+                        <img
+                            src={selectedImage.image}
+                            alt={selectedImage.name}
+                            className="max-w-full max-h-[80vh] rounded-2xl shadow-2xl object-contain"
+                        />
+                        <div className="mt-4 text-center text-white">
+                            <h3 className="text-2xl font-bold">{selectedImage.name}</h3>
+                            {selectedImage.role && <p className="text-lg text-white/80">{selectedImage.role}</p>}
+                        </div>
+                        <button
+                            className="absolute -top-4 -right-4 w-10 h-10 bg-white text-gray-900 rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 transition-colors text-2xl font-bold"
+                            onClick={() => setSelectedImage(null)}
+                        >
+                            ×
+                        </button>
+                    </div>
+                </div>
+            )}
             {/* Hero Section */}
             <section className="bg-gradient-to-br from-primary-600 to-secondary-600 py-24">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -94,7 +123,7 @@ function About() {
                     </h1>
                     <p className="text-xl text-white/90 max-w-4xl mx-auto leading-relaxed">
                         L'Association Camerounaise des Femmes Médecins (ACAFEM), créée en 1991,
-                        est affiliée à l'Association Internationale des Femmes Médecins (AIFM).
+                        est affiliée à l'Association Internationale des Femmes Médecins (MWIA).
                         Apolitique et à but non lucratif, elle est régie par la loi n° 90-53 du 19 décembre 1990.
                     </p>
 
@@ -352,25 +381,53 @@ function About() {
                             {timeline.map((item, index) => (
                                 <div key={index} className={`flex items-center ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
                                     <div className={`w-full lg:w-5/12 ${index % 2 === 0 ? 'lg:text-right lg:pr-12' : 'lg:text-left lg:pl-12'}`}>
-                                        <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-                                            <div className="flex gap-4">
-                                                {/* Photo */}
-                                                <div className="flex-shrink-0">
-                                                    <img
-                                                        src={item.image}
-                                                        alt={item.president}
-                                                        className="w-20 h-20 rounded-full object-cover border-4 border-primary-100 shadow-md"
-                                                    />
+                                        <div className="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100 group">
+                                            <div className="flex flex-col sm:flex-row gap-8 items-center">
+                                                {/* Photo avec cadre élégant doré */}
+                                                <div
+                                                    className={`flex-shrink-0 relative ${item.image ? 'cursor-pointer' : ''}`}
+                                                    onClick={() => item.image && setSelectedImage({ image: item.image, name: item.president })}
+                                                >
+                                                    {/* Halo lumineux */}
+                                                    <div className="absolute -inset-4 bg-gradient-to-r from-amber-200 via-yellow-100 to-amber-200 rounded-full blur-md opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                                    {/* Anneau doré extérieur */}
+                                                    <div className="absolute -inset-2 bg-gradient-to-br from-amber-400 via-yellow-300 to-amber-500 rounded-full"></div>
+                                                    {/* Anneau blanc intermédiaire */}
+                                                    <div className="absolute -inset-1 bg-white rounded-full"></div>
+                                                    {/* Anneau doré intérieur */}
+                                                    <div className="absolute inset-0 bg-gradient-to-br from-amber-300 via-yellow-200 to-amber-400 rounded-full"></div>
+                                                    {/* Photo principale ou Avatar anonyme */}
+                                                    {item.image ? (
+                                                        <img
+                                                            src={item.image}
+                                                            alt={item.president}
+                                                            className="relative w-32 h-32 md:w-36 md:h-36 rounded-full object-cover border-4 border-white shadow-2xl hover:scale-105 transition-transform"
+                                                        />
+                                                    ) : (
+                                                        <div className="relative w-32 h-32 md:w-36 md:h-36 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 border-4 border-white shadow-2xl flex items-center justify-center">
+                                                            <svg className="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                                                                <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z" />
+                                                            </svg>
+                                                        </div>
+                                                    )}
+                                                    {/* Brillance sur le cadre */}
+                                                    <div className="absolute top-2 left-4 w-8 h-2 bg-white/60 rounded-full blur-sm transform -rotate-45"></div>
+                                                    {/* Indicateur de clic (seulement si image disponible) */}
+                                                    {item.image && (
+                                                        <div className="absolute bottom-0 right-0 w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white text-xs shadow-lg">
+                                                            🔍
+                                                        </div>
+                                                    )}
                                                 </div>
                                                 {/* Content */}
-                                                <div className="flex-1">
-                                                    <div className="flex items-center space-x-2 mb-2">
-                                                        <Calendar className="text-primary-500" size={16} />
-                                                        <span className="text-primary-600 font-bold text-sm">{item.year}</span>
+                                                <div className="flex-1 text-center sm:text-left">
+                                                    <div className="inline-flex items-center space-x-2 mb-4 bg-gradient-to-r from-primary-100 to-secondary-100 px-4 py-1.5 rounded-full shadow-sm">
+                                                        <Calendar className="text-primary-600" size={16} />
+                                                        <span className="text-primary-700 font-bold">{item.year}</span>
                                                     </div>
-                                                    <h3 className="text-lg font-bold text-gray-900 mb-1">{item.title}</h3>
-                                                    <p className="text-secondary-600 font-medium text-sm mb-2">{item.president}</p>
-                                                    <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
+                                                    <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">{item.title}</h3>
+                                                    <p className="text-secondary-600 font-semibold text-lg mb-3">{item.president}</p>
+                                                    <p className="text-gray-600 leading-relaxed">{item.desc}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -400,12 +457,19 @@ function About() {
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {team.map((member, index) => (
                             <div key={index} className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all group">
-                                <div className="aspect-square overflow-hidden">
+                                <div
+                                    className="aspect-square overflow-hidden cursor-pointer relative"
+                                    onClick={() => setSelectedImage({ image: member.image, name: member.name, role: member.role })}
+                                >
                                     <img
                                         src={member.image}
                                         alt={member.name}
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                     />
+                                    {/* Overlay au survol */}
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                        <span className="opacity-0 group-hover:opacity-100 transition-opacity text-white text-2xl">🔍</span>
+                                    </div>
                                 </div>
                                 <div className="p-4 text-center">
                                     <h3 className="text-sm md:text-base font-bold text-gray-900">{member.name}</h3>

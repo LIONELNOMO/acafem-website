@@ -130,7 +130,7 @@ function UrgencySection() {
                     <span>PLAN STRATÉGIQUE 2025-2028 LANCÉ !</span>
                 </div>
                 <div className="hidden md:flex items-center gap-6 text-sm font-medium opacity-90">
-                    <span className="flex items-center gap-1"><Users size={16} /> Objectif : 244 membres</span>
+                    <span className="flex items-center gap-1"><Users size={16} /> Objectif : 500 membres</span>
                     <span className="w-1 h-1 bg-white rounded-full"></span>
                     <span className="flex items-center gap-1"><BookOpen size={16} /> 500 femmes à former</span>
                 </div>
@@ -152,13 +152,13 @@ function StatsSection() {
             icon: <Calendar className="w-6 h-6 mb-2 mx-auto text-primary-300" />
         },
         {
-            value: "122 → 244",
+            value: "122 → 500",
             label: "Objectif membres 2028",
             color: "text-secondary-500",
             icon: <Users className="w-6 h-6 mb-2 mx-auto text-secondary-300" />
         },
         {
-            value: "6",
+            value: "10",
             label: "Branches régionales actives",
             color: "text-accent-500",
             icon: <MapPin className="w-6 h-6 mb-2 mx-auto text-accent-300" />

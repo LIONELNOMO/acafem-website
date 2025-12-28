@@ -18,29 +18,8 @@ import {
     Loader2
 } from 'lucide-react'
 
-// Spécialités médicales disponibles
-const specialites = [
-    "Médecine Générale",
-    "Cardiologie",
-    "Pédiatrie",
-    "Gynécologie-Obstétrique",
-    "Chirurgie Générale",
-    "Dermatologie",
-    "Ophtalmologie",
-    "ORL",
-    "Neurologie",
-    "Psychiatrie",
-    "Radiologie",
-    "Anesthésie-Réanimation",
-    "Médecine Interne",
-    "Pneumologie",
-    "Gastro-entérologie",
-    "Néphrologie",
-    "Endocrinologie",
-    "Rhumatologie",
-    "Oncologie",
-    "Autre"
-]
+// Spécialités médicales - Liste simplifiée non utilisée pour l'affichage, mais pour référence ou autre usage si besoin.
+// La logique a changé pour Généraliste vs Spécialiste (input libre)
 
 // Régions du Cameroun
 const regions = [
@@ -88,6 +67,7 @@ function RegisterMember() {
 
         // Informations professionnelles
         specialite: '',
+        specialtyType: '', // 'Généraliste' ou 'Spécialiste'
         numeroOrdre: '',
         anneesExperience: '',
 
@@ -96,7 +76,8 @@ function RegisterMember() {
         region: '',
         ville: '',
 
-        // Document
+        // Documents
+        photoUrl: '',
         documentAttestation: null,
         documentUrl: ''
     })
@@ -107,15 +88,28 @@ function RegisterMember() {
         setFormData(prev => ({ ...prev, [name]: value }))
     }
 
-    // Upload du document d'attestation
-    const handleDocumentUpload = async (e) => {
+    // Gestion du type de médecin
+    const handleSpecialtyTypeChange = (e) => {
+        const type = e.target.value
+        setFormData(prev => ({
+            ...prev,
+            specialtyType: type,
+            specialite: type === 'Généraliste' ? 'Médecine Générale' : ''
+        }))
+    }
+
+    // Upload du document ou photo
+    const handleFileUpload = async (e, type) => {
         const file = e.target.files[0]
         if (!file) return
 
-        // Vérifier le type (image ou PDF)
-        const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf']
+        // Vérifier le type
+        const validTypes = type === 'photo'
+            ? ['image/jpeg', 'image/png', 'image/jpg']
+            : ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf']
+
         if (!validTypes.includes(file.type)) {
-            setError('Veuillez sélectionner une image (JPG, PNG) ou un PDF')
+            setError(type === 'photo' ? 'Veuillez sélectionner une image (JPG, PNG)' : 'Veuillez sélectionner une image ou un PDF')
             return
         }
 
@@ -130,10 +124,11 @@ function RegisterMember() {
 
         // Générer un nom unique
         const fileExt = file.name.split('.').pop()
-        const fileName = `attestations/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`
+        const folder = type === 'photo' ? 'photos' : 'attestations'
+        const fileName = `${folder}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`
 
         const { data, error: uploadError } = await supabase.storage
-            .from('documents')
+            .from('documents') // On utilise le même bucket 'documents' pour simplifier
             .upload(fileName, file)
 
         if (uploadError) {
@@ -147,13 +142,24 @@ function RegisterMember() {
             .from('documents')
             .getPublicUrl(fileName)
 
-        setFormData(prev => ({
-            ...prev,
-            documentAttestation: file,
-            documentUrl: urlData.publicUrl
-        }))
+        if (type === 'photo') {
+            setFormData(prev => ({
+                ...prev,
+                photoUrl: urlData.publicUrl
+            }))
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                documentAttestation: file,
+                documentUrl: urlData.publicUrl
+            }))
+        }
         setUploading(false)
     }
+
+    // Wrappers pour garder la compatibilité si besoin, ou utiliser directement handleFileUpload
+    const handleDocumentUpload = (e) => handleFileUpload(e, 'document')
+    const handlePhotoUpload = (e) => handleFileUpload(e, 'photo')
 
     // Soumission du formulaire
     const handleSubmit = async (e) => {
@@ -214,6 +220,7 @@ function RegisterMember() {
                     region: formData.region,
                     ville: formData.ville,
                     document_attestation: formData.documentUrl,
+                    photo_url: formData.photoUrl,
                     created_at: new Date().toISOString()
                 }])
 
@@ -416,6 +423,41 @@ function RegisterMember() {
                                     />
                                 </div>
                             </div>
+
+                            {/* Photo de profil */}
+                            <div className="mt-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Photo de profil (facultatif)
+                                </label>
+                                <label className={`flex items-center justify-center w-full px-4 py-6 border-2 border-dashed rounded-xl cursor-pointer transition-colors ${formData.photoUrl
+                                    ? 'border-green-400 bg-green-50'
+                                    : 'border-gray-300 hover:border-primary-400 hover:bg-primary-50'
+                                    }`}>
+                                    {uploading ? (
+                                        <div className="flex items-center text-gray-600">
+                                            <Loader2 className="animate-spin mr-2" size={20} />
+                                            <span>Téléchargement...</span>
+                                        </div>
+                                    ) : formData.photoUrl ? (
+                                        <div className="flex items-center text-green-600">
+                                            <img src={formData.photoUrl} alt="Aperçu" className="w-12 h-12 rounded-full object-cover mr-4 border-2 border-green-200" />
+                                            <span>Photo téléchargée ✓</span>
+                                        </div>
+                                    ) : (
+                                        <div className="flex items-center text-gray-600">
+                                            <Upload className="mr-2" size={20} />
+                                            <span>Télécharger une photo</span>
+                                        </div>
+                                    )}
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handlePhotoUpload}
+                                        className="hidden"
+                                        disabled={uploading}
+                                    />
+                                </label>
+                            </div>
                         </div>
 
                         {/* Section: Informations Professionnelles */}
@@ -428,20 +470,36 @@ function RegisterMember() {
                             <div className="grid md:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Spécialité *
+                                        Type de Médecin *
                                     </label>
                                     <select
-                                        name="specialite"
-                                        value={formData.specialite}
-                                        onChange={handleChange}
+                                        name="specialtyType"
+                                        value={formData.specialtyType}
+                                        onChange={handleSpecialtyTypeChange}
                                         required
                                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                     >
                                         <option value="">Sélectionnez...</option>
-                                        {specialites.map(s => (
-                                            <option key={s} value={s}>{s}</option>
-                                        ))}
+                                        <option value="Généraliste">Médecin Généraliste</option>
+                                        <option value="Spécialiste">Médecin Spécialiste</option>
                                     </select>
+
+                                    {formData.specialtyType === 'Spécialiste' && (
+                                        <div className="mt-2">
+                                            <label className="block text-xs font-medium text-gray-700 mb-1">
+                                                Précisez votre spécialité *
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="specialite"
+                                                value={formData.specialite}
+                                                onChange={handleChange}
+                                                required
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                                placeholder="Ex: Cardiologue, Pédiatre..."
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -488,8 +546,8 @@ function RegisterMember() {
                                 </p>
 
                                 <label className={`flex items-center justify-center w-full px-4 py-6 border-2 border-dashed rounded-xl cursor-pointer transition-colors ${formData.documentUrl
-                                        ? 'border-green-400 bg-green-50'
-                                        : 'border-gray-300 hover:border-primary-400 hover:bg-primary-50'
+                                    ? 'border-green-400 bg-green-50'
+                                    : 'border-gray-300 hover:border-primary-400 hover:bg-primary-50'
                                     }`}>
                                     {uploading ? (
                                         <div className="flex items-center text-gray-600">

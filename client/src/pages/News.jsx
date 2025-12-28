@@ -28,7 +28,7 @@ const defaultFeaturedArticle = {
     category: "Événements",
     created_at: "2024-12-20",
     author: "Comité Exécutif",
-    image: "https://images.unsplash.com/photo-1577962917302-cd874c4e31d2?w=1200&h=600&fit=crop",
+    image: "/images/plan strategique pour l'acafem.jpg",
     featured: true
 }
 

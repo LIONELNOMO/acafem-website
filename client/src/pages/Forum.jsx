@@ -20,7 +20,8 @@ const forumCategories = [
         icon: <Users className="w-8 h-8 text-primary-500" />,
         color: "primary",
         topics: 124,
-        access: "Privé"
+        access: "Privé",
+        path: "/forum/membres"
     },
     {
         id: 'sante',
@@ -29,7 +30,8 @@ const forumCategories = [
         icon: <Heart className="w-8 h-8 text-red-500" />,
         color: "red",
         topics: 85,
-        access: "Public"
+        access: "Public",
+        path: "/forum/sante"
     },
     {
         id: 'leadership',
@@ -38,7 +40,8 @@ const forumCategories = [
         icon: <Briefcase className="w-8 h-8 text-yellow-500" />,
         color: "yellow",
         topics: 56,
-        access: "Public"
+        access: "Public",
+        path: "/forum/leadership"
     },
     {
         id: 'plaidoyer',
@@ -47,7 +50,8 @@ const forumCategories = [
         icon: <Megaphone className="w-8 h-8 text-purple-500" />,
         color: "purple",
         topics: 42,
-        access: "Public"
+        access: "Public",
+        path: "/forum/plaidoyer"
     },
     {
         id: 'debats',
@@ -56,7 +60,8 @@ const forumCategories = [
         icon: <Newspaper className="w-8 h-8 text-blue-500" />,
         color: "blue",
         topics: 38,
-        access: "Public"
+        access: "Public",
+        path: "/forum/debats"
     }
 ]
 
@@ -120,7 +125,11 @@ function Forum() {
 
                         <div className="grid md:grid-cols-2 gap-6">
                             {forumCategories.map(cat => (
-                                <div key={cat.id} className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 group cursor-pointer">
+                                <Link
+                                    to={cat.path}
+                                    key={cat.id}
+                                    className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 group cursor-pointer block"
+                                >
                                     <div className="flex items-start justify-between mb-4">
                                         <div className={`p-3 rounded-xl bg-${cat.color}-50 group-hover:bg-${cat.color}-100 transition-colors`}>
                                             {cat.icon}
@@ -136,7 +145,7 @@ function Forum() {
                                     <div className="flex items-center text-sm text-gray-400">
                                         <span className="font-medium text-gray-900 mr-1">{cat.topics}</span> discussions
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
 

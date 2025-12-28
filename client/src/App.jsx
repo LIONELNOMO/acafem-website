@@ -15,6 +15,11 @@ import RegisterStudent from './pages/RegisterStudent'
 import Login from './pages/Login'
 import MemberDashboard from './pages/MemberDashboard'
 import AdminMembers from './pages/AdminMembers'
+import ForumMembers from './pages/ForumMembers'
+import ForumHealth from './pages/ForumHealth'
+import ForumLeadership from './pages/ForumLeadership'
+import ForumAdvocacy from './pages/ForumAdvocacy'
+import ForumNewsDebates from './pages/ForumNewsDebates'
 
 function App() {
     return (
@@ -38,6 +43,13 @@ function App() {
                     <Route path="/connexion" element={<Login />} />
                     <Route path="/espace-membre" element={<MemberDashboard />} />
                     <Route path="/admin-membres" element={<AdminMembers />} />
+
+                    {/* Routes du Forum */}
+                    <Route path="/forum/membres" element={<ForumMembers />} />
+                    <Route path="/forum/sante" element={<ForumHealth />} />
+                    <Route path="/forum/leadership" element={<ForumLeadership />} />
+                    <Route path="/forum/plaidoyer" element={<ForumAdvocacy />} />
+                    <Route path="/forum/debats" element={<ForumNewsDebates />} />
                 </Routes>
             </main>
             <Footer />
