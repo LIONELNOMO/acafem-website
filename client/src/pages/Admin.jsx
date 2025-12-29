@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import {
     Lock,
@@ -12,7 +13,8 @@ import {
     FileText,
     CheckCircle,
     AlertCircle,
-    Upload
+    Upload,
+    Users
 } from 'lucide-react'
 
 // Mot de passe admin (à changer en production !)
@@ -349,6 +351,13 @@ function Admin() {
                         Gestion des Actualités
                     </h1>
                     <div className="flex gap-4">
+                        <Link
+                            to="/admin-membres"
+                            className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center"
+                        >
+                            <Users size={18} className="mr-2" />
+                            Gérer les Membres
+                        </Link>
                         <button
                             onClick={handleSeedData}
                             className="bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors"

@@ -269,7 +269,7 @@ function ActionDomainsSection() {
             icon: <Stethoscope size={40} className="text-primary-500" />,
             title: "Bien-être des Femmes Médecins",
             desc: "Nous œuvrons pour améliorer les conditions de travail, promouvoir le leadership féminin et lutter contre les inégalités. Mentoring et formation continue.",
-            points: ["Formation de 1000 femmes", "Programmes de leadership", "Équité salariale"]
+            points: ["Formation scientifiques", "Formations génératrices de revenu", "Programmes de leadership", "Équité salariale"]
         },
         {
             icon: <Heart size={40} className="text-secondary-500" />,

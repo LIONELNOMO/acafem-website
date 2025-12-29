@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Heart, User } from 'lucide-react'
+import { Menu, X, Heart, User, LogOut } from 'lucide-react'
+import { supabase } from '../lib/supabase'
 
 const navLinks = [
     { name: 'Accueil', path: '/' },
@@ -14,6 +15,7 @@ const navLinks = [
 function Navbar() {
     const [isOpen, setIsOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false)
+    const [user, setUser] = useState(null)
     const location = useLocation()
 
     useEffect(() => {
@@ -21,8 +23,28 @@ function Navbar() {
             setScrolled(window.scrollY > 20)
         }
         window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
+
+        // Auth state listener
+        const checkUser = async () => {
+            const { data: { session } } = await supabase.auth.getSession()
+            setUser(session?.user || null)
+        }
+        checkUser()
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user || null)
+        })
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+            subscription.unsubscribe()
+        }
     }, [])
+
+    const handleLogout = async () => {
+        await supabase.auth.signOut()
+        setIsOpen(false)
+    }
 
     return (
         <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
@@ -67,14 +89,34 @@ function Navbar() {
 
                     {/* Actions */}
                     <div className="hidden lg:flex items-center space-x-4">
-                        <Link
-                            to="/connexion"
-                            className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors ${scrolled ? 'text-gray-700 hover:bg-primary-50' : 'text-white/90 hover:bg-white/10'
-                                }`}
-                        >
-                            <User size={18} />
-                            <span>Connexion</span>
-                        </Link>
+                        {user ? (
+                            <div className="flex items-center space-x-2">
+                                <Link
+                                    to="/espace-membre"
+                                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors ${scrolled ? 'text-gray-700 hover:bg-primary-50' : 'text-white/90 hover:bg-white/10'
+                                        }`}
+                                >
+                                    <User size={18} />
+                                    <span>Mon Espace</span>
+                                </Link>
+                                <button
+                                    onClick={handleLogout}
+                                    className={`flex items-center space-x-2 px-3 py-2 rounded-lg font-medium transition-colors hover:text-red-500 ${scrolled ? 'text-gray-500' : 'text-white/80'}`}
+                                    title="Déconnexion"
+                                >
+                                    <LogOut size={18} />
+                                </button>
+                            </div>
+                        ) : (
+                            <Link
+                                to="/connexion"
+                                className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors ${scrolled ? 'text-gray-700 hover:bg-primary-50' : 'text-white/90 hover:bg-white/10'
+                                    }`}
+                            >
+                                <User size={18} />
+                                <span>Connexion</span>
+                            </Link>
+                        )}
                         <Link to="/don" className="btn-primary flex items-center space-x-2">
                             <Heart size={18} />
                             <span>Faire un Don</span>
@@ -108,14 +150,36 @@ function Navbar() {
                                 </Link>
                             ))}
                             <hr className="my-2" />
-                            <Link
-                                to="/connexion"
-                                onClick={() => setIsOpen(false)}
-                                className="px-4 py-3 rounded-lg font-medium text-gray-700 hover:bg-primary-50 flex items-center"
-                            >
-                                <User size={18} className="mr-2" />
-                                Connexion
-                            </Link>
+
+                            {user ? (
+                                <>
+                                    <Link
+                                        to="/espace-membre"
+                                        onClick={() => setIsOpen(false)}
+                                        className="px-4 py-3 rounded-lg font-medium text-primary-600 hover:bg-primary-50 flex items-center"
+                                    >
+                                        <User size={18} className="mr-2" />
+                                        Mon Espace
+                                    </Link>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="w-full text-left px-4 py-3 rounded-lg font-medium text-red-600 hover:bg-red-50 flex items-center"
+                                    >
+                                        <LogOut size={18} className="mr-2" />
+                                        Déconnexion
+                                    </button>
+                                </>
+                            ) : (
+                                <Link
+                                    to="/connexion"
+                                    onClick={() => setIsOpen(false)}
+                                    className="px-4 py-3 rounded-lg font-medium text-gray-700 hover:bg-primary-50 flex items-center"
+                                >
+                                    <User size={18} className="mr-2" />
+                                    Connexion
+                                </Link>
+                            )}
+
                             <Link
                                 to="/don"
                                 onClick={() => setIsOpen(false)}
