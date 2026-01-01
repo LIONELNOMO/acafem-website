@@ -30,9 +30,9 @@ const strategicAxes = [
         projects: [
             {
                 id: "1.1",
-                title: "Socio-Coopération (RCLFM)",
+                title: "Socio-Coopération ",
                 icon: <Users className="w-10 h-10 text-primary-500" />,
-                objective: "Créer le premier Répertoire Camerounais en Ligne des Femmes Médecins",
+                objective: "Créer le premier Répertoire Camerounais en Ligne des Femmes Médecins (RCLFM)",
                 actions: [
                     "Base de données en ligne des femmes médecins (médecine, santé publique, recherche)",
                     "Inclusion des travailleuses sanitaires réfugiées et migrantes",
@@ -98,35 +98,38 @@ const strategicAxes = [
                 id: "2.1",
                 title: "Réduction de la Morbi-mortalité",
                 icon: <Baby className="w-10 h-10 text-secondary-500" />,
-                objective: "Réduire la mortalité maternelle, néonatale, infantile d'ici 2030",
+                objective: "Réduire la mortalité maternelle, néonatale, infantile et de l'adolescent d'ici 2030",
                 targets: ["Femmes enceintes", "Nouveau-nés", "Enfants", "Adolescentes"],
-                actions: ["Soutien aux efforts de réduction de la mortalité"]
+                actions: ["Soutien aux efforts de réduction de la mortalité", "Participations au renforcement des soins primaires ", "Promouvoir auprès des communautés la santé maternelle et infantile (vaccination , suivi prenatal, accouchement assité , allaitement et vulgarisation du plan d'accouchement )", "Promotion de la bonne nutrition et de l'hygeine (lavage des mains , eau potable  , wash)"],
             },
             {
                 id: "2.2",
                 title: "Santé Globale",
                 icon: <FileHeart className="w-10 h-10 text-secondary-500" />,
                 objective: "Réduire les besoins non satisfaits",
-                context: "Réduction des décès SIDA à 630.000 (2023), mais défis d'accès persistants",
-                actions: ["Accès aux services de santé reproductive", "Droits sexuels", "Santé materno-pédiatrique", "Santé de reproduction", "Santé du sujet âgé"]
+                context: "Réduction des décès liés au Sida à 630.000 (2023), mais défis d'accès persistants",
+                actions: ["Accès aux services de santé reproductive", "Droits sexuels/Santé de reproduction", "Santé maternelle", "santé pédiatrique", "Santé du sujet âgé"]
             },
             {
                 id: "2.3",
                 title: "Lutte contre les Violences faites aux Femmes",
                 icon: <ShieldAlert className="w-10 h-10 text-red-500" />,
+                context: "au moins 30% des femmes dans le monde et au Cameroun ont été victimes de violences physiques et ou sexuels au cours de leur vie (OMS,2024) ",
                 stat: "30% des femmes camerounaises victimes de violences (OMS)",
-                impacts: ["Santé physique & mentale", "Santé sexuelle & reproductive"]
+                impacts: ["Santé physique & mentale", "Santé sexuelle & reproductive"],
+                actions: ["Plaidoyer en faveur des féminicides", "Accompagnement des victimes sur leur santé physique, mentale , Sexuelle et reproductive"]
             },
             {
                 id: "2.4",
                 title: "Changement Climatique",
                 icon: <Leaf className="w-10 h-10 text-green-500" />,
-                context: "La crise climatique n'est pas neutre en termes de genre",
+                context: "(Environ 1000.000.000 de refugiés dont les femmes et les filles et restent particulièrement vulnérables) La crise climatique n'est pas neutre en termes de genre ",
                 impacts: [
                     "Risques accrus maladies infectieuses",
                     "Aggravation santé maternelle",
                     "Vulnérabilité réfugiés et migrants"
-                ]
+                ],
+                actions: ["Reductions des risques de maladie infectueuse transmise par des vecteurs", " Soin d'accompagnement en situation de  malnutrition", "Plaidoyer en faveur de l'acces au secours et à l'aide des femmes et des filles lors des catastrophes.", "Amliorer l'accès au service de santé."],
             },
             {
                 id: "2.5",
@@ -148,11 +151,12 @@ const strategicAxes = [
                 id: "3.1",
                 title: "Gestion des Ressources Humaines",
                 icon: <Users className="w-10 h-10 text-accent-500" />,
-                context: "70% des travailleurs médicaux sont des femmes. Déficit mondial de 10M d'ici 2030.",
+                context: "70% des travailleurs médicaux sont des femmes, avec un déficit mondial de 10M d'ici 2030.",
                 actions: [
-                    "Renforcement liens professionnels",
+                    "Renforcement  des liens professionnels",
                     "Amplification de la voix collective",
-                    "Comblement du déficit RH"
+                    "Comblement du déficit RH",
+                    "encourager  les femmes à s'interesser au cours de leur formation aux spécialités orphelines ",
                 ]
             },
             {
@@ -160,7 +164,7 @@ const strategicAxes = [
                 title: "Accès aux Technologies Numériques",
                 icon: <Smartphone className="w-10 h-10 text-accent-500" />,
                 problem: "Femmes : 10% moins de chances de posséder un mobile (pays faibles revenus)",
-                actions: ["Formation et équipement des professionnelles de santé"]
+                actions: ["Formation des professionnelles de la santé au technologie numérique", "Equiper les professionelles de santé des T.I.C ", "promouvoir l'e-santé"],
             }
         ]
     }

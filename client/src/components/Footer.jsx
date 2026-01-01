@@ -51,7 +51,7 @@ function Footer() {
                             </div>
                             <div>
                                 <h3 className="font-heading font-bold text-xl text-white">ACAFEM</h3>
-                                <p className="text-sm text-gray-400">Depuis 1990</p>
+                                <p className="text-sm text-gray-400">Depuis 1991</p>
                             </div>
                         </div>
                         <p className="text-gray-400 leading-relaxed mb-6">
@@ -115,11 +115,14 @@ function Footer() {
                             </li>
                             <li className="flex items-center space-x-3">
                                 <Phone size={20} className="text-primary-400 flex-shrink-0" />
-                                <span className="text-gray-400">+237 6XX XXX XXX</span>
+                                <span className="text-gray-400">+237 677522758</span>
+                                <span className="text-gray-400">+237 696122427</span>
                             </li>
                             <li className="flex items-center space-x-3">
                                 <Mail size={20} className="text-primary-400 flex-shrink-0" />
-                                <span className="text-gray-400">contact@acafem.org</span>
+                                <span className="text-gray-400">acafemcmwa@gmail.com</span>
+                                <span className="text-gray-400">siège social:Yaoundé</span>
+                                <span className="text-gray-400">Yaoundé,Omnisport derrière la pharmacie du stade , deuxieme entrée , deuxième maison à droite</span>
                             </li>
                         </ul>
                         <Link

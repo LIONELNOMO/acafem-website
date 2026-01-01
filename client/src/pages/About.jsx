@@ -34,7 +34,7 @@ function About() {
         {
             year: '1995-1998',
             title: 'Recherche et visibilité',
-            president: 'Dr Lilian Tendo Wambua & Dr Rosa Befidi Mengue',
+            president: 'Dr Lilian Tendo Wambua ',
             image: '/images/lilian tendo.JPG',
             desc: 'Recherche nationale sur les pratiques traditionnelles affectant la santé reproductive. Représentation dans les conférences nationales et internationales.'
         },
@@ -181,13 +181,16 @@ function About() {
                                     <div>
                                         <h4 className="font-bold text-primary-200 mb-2 uppercase tracking-wide text-sm">Notre But</h4>
                                         <p className="text-white/90 leading-relaxed">
-                                            Contribuer à l'amélioration de la santé des populations camerounaises et des conditions de travail de la femme médecin.
+                                            Contribuer à l'amélioration de la santé des populations camerounaises et aux conditions de travail de la femme médecin.
                                         </p>
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-primary-200 mb-2 uppercase tracking-wide text-sm">Objectif Général</h4>
+                                        <h4 className="font-bold text-primary-200 mb-2 uppercase tracking-wide text-sm"> Double Objectif Général</h4>
                                         <p className="text-white/90 leading-relaxed">
-                                            Contribuer d'ici 2030 à l'amélioration du bien-être de la femme médecin/étudiante de dernière année de médecine et de la population générale.
+                                            Contribuer d'ici 2030 à l'amélioration du bien-être de la femme médecin et des étudiantes de dernière année de médecine. .
+                                        </p>
+                                        <p className="text-white/90 leading-relaxed">
+                                            contribuer d'ici 2030 à l'amélioration de la santé de la population Générale .
                                         </p>
                                     </div>
                                 </div>
@@ -208,7 +211,7 @@ function About() {
                                         <Globe size={24} />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-gray-900 text-lg mb-2">Plan AIFM 2020-2025</h4>
+                                        <h4 className="font-bold text-gray-900 text-lg mb-2">Plan MWIA 2020-2025</h4>
                                         <p className="text-gray-600 bg-gray-50 p-4 rounded-lg border-l-4 border-primary-500 italic">
                                             "Une humanité : des solutions de santé grâce à nos partenariats"
                                         </p>
@@ -224,6 +227,9 @@ function About() {
                                         <p className="text-gray-600">
                                             Alignement complet avec la Stratégie Nationale de Développement 2020-2030 du Cameroun pour un impact durable.
                                         </p>
+
+                                        <h5 className="font-bold text-gray-900 text-lg mb-2">Stratégie sectorielle de la Santé(SSS 2020-2030)</h5>
+                                        <P>Alignement complet avec la SSS 2020-2030 pour promouvoir les modes de vie saint et améliorer l'accès au service de santé.  </P>
                                     </div>
                                 </div>
                             </div>
@@ -238,6 +244,8 @@ function About() {
                         </div>
 
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+
                             {/* AG */}
                             <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-default">
                                 <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 mb-4">
@@ -245,6 +253,15 @@ function About() {
                                 </div>
                                 <h4 className="font-bold text-gray-900 mb-2">Assemblée Générale</h4>
                                 <p className="text-sm text-gray-600">Plus haute autorité, réunion annuelle de tous les membres.</p>
+                            </div>
+
+                            {/* CA */}
+                            <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-default">
+                                <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 mb-4">
+                                    <Users size={20} />
+                                </div>
+                                <h4 className="font-bold text-gray-900 mb-2">Conseil d'Administration</h4>
+                                <p className="text-sm text-gray-600">definir la stratégie et supervisé le comité executif.</p>
                             </div>
 
                             {/* Comité Exécutif */}
@@ -498,7 +515,7 @@ function About() {
                             <div className="text-white/70">Bénéficiaires</div>
                         </div>
                         <div>
-                            <div className="text-5xl font-bold text-white mb-2">8</div>
+                            <div className="text-5xl font-bold text-white mb-2">6</div>
                             <div className="text-white/70">Régions couvertes</div>
                         </div>
                     </div>

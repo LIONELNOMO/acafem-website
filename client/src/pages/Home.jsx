@@ -34,7 +34,7 @@ function HeroSection() {
                     <div className="text-center lg:text-left">
                         <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white/90 text-sm mb-6">
                             <Stethoscope size={16} className="mr-2" />
-                            <span>Depuis 1991 | Affiliée à l'AIFM depuis 1919</span>
+                            <span>Depuis 1991 | Affiliée à l'AIFM(MWIA) depuis 1919</span>
                         </div>
 
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-white leading-tight mb-2">
@@ -56,7 +56,7 @@ function HeroSection() {
                         </div>
 
                         <p className="text-lg text-white/80 leading-relaxed mb-8 max-w-xl">
-                            Depuis 34 ans, l'ACAFEM rassemble les femmes médecins camerounaises
+                            Depuis 35 ans, l'ACAFEM rassemble les femmes médecins Camerounaises
                             pour transformer le secteur de la santé, promouvoir l'équité des sexes
                             et améliorer la santé des populations.
                         </p>
@@ -97,7 +97,7 @@ function HeroSection() {
                                         <Heart className="text-secondary-600" size={28} />
                                     </div>
                                     <div>
-                                        <div className="text-2xl font-bold text-gray-900">34 Ans</div>
+                                        <div className="text-2xl font-bold text-gray-900">35 Ans</div>
                                         <div className="text-gray-500 text-sm">d'engagement</div>
                                     </div>
                                 </div>
@@ -146,8 +146,8 @@ function UrgencySection() {
 function StatsSection() {
     const stats = [
         {
-            value: "34 ANS",
-            label: "D'engagement (1991-2025)",
+            value: "35 ANS",
+            label: "D'engagement (1991-2026)",
             color: "text-primary-500",
             icon: <Calendar className="w-6 h-6 mb-2 mx-auto text-primary-300" />
         },
@@ -204,14 +204,14 @@ function AboutSection() {
                 <div className="grid lg:grid-cols-2 gap-16 items-center">
                     <div>
                         <span className="text-primary-500 font-semibold text-sm uppercase tracking-wider">Qui sommes-nous ?</span>
-                        <h2 className="section-title mt-2 text-left mb-6">Une histoire de 34 ans au service de la santé</h2>
+                        <h2 className="section-title mt-2 text-left mb-6">Une histoire de 35 ans au service de la santé</h2>
 
                         <div className="space-y-6 text-gray-600 leading-relaxed">
                             <p>
-                                <strong className="text-gray-900">L'Association Camerounaise des Femmes Médecins (ACAFEM)</strong> a été créée en <strong className="text-primary-600">1991</strong> avec une mission claire : tisser des liens de solidarité entre les femmes médecins camerounaises et œuvrer pour l'amélioration de la santé des populations.
+                                <strong className="text-gray-900">L'Association Camerounaise des Femmes Médecins (ACAFEM)</strong> a été créée en <strong className="text-primary-600">1991</strong> avec une mission claire : Tisser des liens de solidarité entre les femmes médecins Camerounaises et œuvrer pour l'amélioration de la santé des populations.
                             </p>
                             <p>
-                                Affiliée à <strong className="text-gray-900">l'Association Internationale des Femmes Médecins (AIFM)</strong>, fondée en 1919, l'ACAFEM s'inscrit dans un réseau mondial de professionnelles engagées.
+                                Affiliée à <strong className="text-gray-900">l'Association Internationale des Femmes Médecins (AIFM)</strong>,encore appelée en anglais la médical women's international association (MWIA) fondée en 1919. L'ACAFEM s'inscrit alors ainsi dans un réseau mondial de professionnelles engagées.
                             </p>
                             <p>
                                 En partenariat avec la <strong className="text-gray-900">Coalition Internationale pour la Santé des Femmes (CISF)</strong>, nous promouvons les droits en matière de sexualité et de reproduction pour toutes les femmes au Cameroun.
@@ -243,7 +243,7 @@ function AboutSection() {
                                 <div className="bg-white/95 backdrop-blur rounded-xl p-4 shadow-lg">
                                     <Globe className="text-primary-500 mb-2" size={24} />
                                     <div className="font-bold text-gray-900 text-sm">Réseau Mondial</div>
-                                    <div className="text-xs text-gray-500">Affiliation AIFM</div>
+                                    <div className="text-xs text-gray-500">Affiliation AIFM/MWIA</div>
                                 </div>
                                 <div className="bg-white/95 backdrop-blur rounded-xl p-4 shadow-lg">
                                     <UserCircle className="text-secondary-500 mb-2" size={24} />
@@ -268,20 +268,21 @@ function ActionDomainsSection() {
         {
             icon: <Stethoscope size={40} className="text-primary-500" />,
             title: "Bien-être des Femmes Médecins",
-            desc: "Nous œuvrons pour améliorer les conditions de travail, promouvoir le leadership féminin et lutter contre les inégalités. Mentoring et formation continue.",
-            points: ["Formation scientifiques", "Formations génératrices de revenu", "Programmes de leadership", "Équité salariale"]
+            desc: "Nous œuvrons pour améliorer les conditions de travail, promouvoir le leadership féminin , lutter contre les inégalité, faire le Mentorat et la formation continue.",
+            points: ["Formations scientifiques", "Formations en activité génératrices de revenu", "Programmes de leadership", "Équité salariale"]
         },
         {
             icon: <Heart size={40} className="text-secondary-500" />,
-            title: "Santé des Populations",
+            title: "Santé  Globale",
             desc: "Actions concrètes pour réduire la mortalité maternelle, promouvoir la santé reproductive et lutter contre les violences faites aux femmes.",
-            points: ["Mortalité maternelle", "Santé reproductive", "Violences faites aux femmes"]
+            points: ["Mortalité maternelle et reproductive", "Santé pédiatrique", "Violences faites aux femmes", "santé de la personne agée"]
+
         },
         {
             icon: <UserCircle size={40} className="text-accent-500" />,
             title: "Gouvernance & Partenariat",
             desc: "Renforcer la voix collective des femmes médecins pour influencer les politiques de santé et faire progresser la parité aux postes de direction.",
-            points: ["Parité directionnelle", "Plaidoyer politique", "Partenariats stratégiques"]
+            points: ["Parité directionnelle", "Plaidoyer politique", "Partenariats stratégiques", "autonomisation personnelle"]
         }
     ]
 
@@ -290,7 +291,7 @@ function ActionDomainsSection() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
                     <span className="text-primary-500 font-semibold text-sm uppercase tracking-wider">Nos Axes Stratégiques</span>
-                    <h2 className="section-title mt-2">Trois grands domaines d'action</h2>
+                    <h2 className="section-title mt-2">Trois grands domaines</h2>
                     <p className="section-subtitle">Un engagement sur trois fronts pour transformer le secteur de la santé</p>
                 </div>
 
@@ -322,8 +323,8 @@ function ActionDomainsSection() {
 function MissionsDetailSection() {
     const missions = [
         { icon: <UserCircle size={24} />, title: "Collaboration", text: "Encourager l'amitié entre médecins." },
-        { icon: <Megaphone size={24} />, title: "Plaidoyer", text: "Sensibiliser sur la santé femme/homme." },
-        { icon: <Award size={24} />, title: "Leadership", text: "Promouvoir les femmes leaders." },
+        { icon: <Megaphone size={24} />, title: "Plaidoyer", text: "en faveur de la santé du couple mère-enfant et de la famille" },
+        { icon: <Award size={24} />, title: "Leadership", text: "Promouvoir et engager les femmes leaders." },
         { icon: <Users size={24} />, title: "Échanges", text: "Espaces de discussion santé." },
         { icon: <Target size={24} />, title: "Égalité", text: "Œuvrer pour l'équité médicale." },
     ]
@@ -356,20 +357,20 @@ function MissionsDetailSection() {
 function TestimonialsSection() {
     const testimonials = [
         {
-            content: "Grâce à l'ACAFEM, j'ai trouvé un réseau de mentorat qui m'a permis de prendre confiance en mes capacités. Aujourd'hui, je dirige mon propre service.",
-            author: 'Dr. Audrey M.',
+            content: "Grâce à l'ACAFEM, j'ai trouvé un réseau de mentorat qui m'a permis de prendre confiance en mes capacités. Aujourd'hui, je dirige ma polyclinique Odyssée à Douala .",
+            author: 'Dr. E.GWET-BELL ',
             role: 'Médecin Généraliste, Littoral',
             image: 'https://i.pravatar.cc/100?img=1'
         },
         {
             content: "Les formations de l'ACAFEM m'ont ouvert les yeux sur l'importance du leadership féminin en santé. Je me prépare à devenir une leader.",
-            author: 'Sarah K.',
+            author: 'H.NKWA',
             role: 'Étudiante en 7e année',
             image: 'https://i.pravatar.cc/100?img=5'
         },
         {
             content: "L'ACAFEM n'est pas qu'une association, c'est une famille. Ensemble, nous avons prouvé que les femmes médecins peuvent transformer le système.",
-            author: 'Pr. Jeanne E.',
+            author: 'Dr.O.BASSONG MANKOLLO',
             role: 'Membre Fondatrice',
             image: 'https://i.pravatar.cc/100?img=3'
         }
@@ -451,7 +452,7 @@ function NewsPreview() {
                     {/* Article 2 */}
                     <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow group">
                         <div className="h-48 overflow-hidden">
-                            <img src="/images/equipe.jpg" alt="Comité Exécutif" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <img src="/images/plan strategique pour l'acafem.jpg" alt="Comité Exécutif" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                         <div className="p-6">
                             <div className="text-sm text-primary-500 font-medium mb-2">10 Mars 2025</div>
@@ -534,6 +535,7 @@ function PartnersSection() {
                     <span className="text-xl font-bold text-gray-800 flex items-center gap-2"><Users size={20} /> CISF</span>
                     <span className="text-xl font-bold text-gray-800">MINSANTE</span>
                     <span className="text-xl font-bold text-gray-800">MINPROFF</span>
+                    <span className="text-xl font-bold text-gray-800">MINAS</span>
                 </div>
             </div>
         </section>
