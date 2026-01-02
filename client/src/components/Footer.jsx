@@ -113,16 +113,25 @@ function Footer() {
                                 <MapPin size={20} className="text-primary-400 flex-shrink-0 mt-1" />
                                 <span className="text-gray-400">Yaoundé, Cameroun</span>
                             </li>
-                            <li className="flex items-center space-x-3">
-                                <Phone size={20} className="text-primary-400 flex-shrink-0" />
-                                <span className="text-gray-400">+237 677522758</span>
-                                <span className="text-gray-400">+237 696122427</span>
+                            <li className="flex items-start space-x-3">
+                                <Phone size={20} className="text-primary-400 flex-shrink-0 mt-1" />
+                                <div className="flex flex-col text-gray-400 space-y-1">
+                                    <span>+237 677 52 27 58</span>
+                                    <span>+237 696 12 24 27</span>
+                                </div>
                             </li>
                             <li className="flex items-center space-x-3">
                                 <Mail size={20} className="text-primary-400 flex-shrink-0" />
                                 <span className="text-gray-400">acafemcmwa@gmail.com</span>
-                                <span className="text-gray-400">siège social:Yaoundé</span>
-                                <span className="text-gray-400">Yaoundé,Omnisport derrière la pharmacie du stade , deuxieme entrée , deuxième maison à droite</span>
+                            </li>
+                            <li className="flex items-start space-x-3 pt-2 border-t border-gray-800">
+                                <div className="flex flex-col">
+                                    <span className="text-xs font-bold text-primary-500 uppercase tracking-wider mb-1">Siège Social</span>
+                                    <div className="flex items-start space-x-2 text-gray-400 text-sm leading-snug">
+                                        <MapPin size={16} className="text-gray-500 flex-shrink-0 mt-0.5" />
+                                        <span>Yaoundé, Omnisport<br />Derrière la pharmacie du stade<br />2ème entrée, 2ème maison à droite</span>
+                                    </div>
+                                </div>
                             </li>
                         </ul>
                         <Link

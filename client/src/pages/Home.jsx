@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
     Heart,
@@ -360,24 +361,48 @@ function TestimonialsSection() {
             content: "Grâce à l'ACAFEM, j'ai trouvé un réseau de mentorat qui m'a permis de prendre confiance en mes capacités. Aujourd'hui, je dirige ma polyclinique Odyssée à Douala .",
             author: 'Dr. E.GWET-BELL ',
             role: 'Médecin Généraliste, Littoral',
-            image: 'https://i.pravatar.cc/100?img=1'
+            image: '/images/dr GWET BELL temoignage 1.jpeg'
         },
         {
             content: "Les formations de l'ACAFEM m'ont ouvert les yeux sur l'importance du leadership féminin en santé. Je me prépare à devenir une leader.",
             author: 'H.NKWA',
             role: 'Étudiante en 7e année',
-            image: 'https://i.pravatar.cc/100?img=5'
+            image: '/images/Dr-Hemes-Nkwa temoignagne 2 etudiante.png'
         },
         {
             content: "L'ACAFEM n'est pas qu'une association, c'est une famille. Ensemble, nous avons prouvé que les femmes médecins peuvent transformer le système.",
             author: 'Dr.O.BASSONG MANKOLLO',
             role: 'Membre Fondatrice',
-            image: 'https://i.pravatar.cc/100?img=3'
+            image: '/images/dr bassong olga témoignagne 3.jpg'
         }
     ]
 
+    const [selectedImage, setSelectedImage] = useState(null)
+
     return (
         <section className="py-24 bg-gradient-to-br from-primary-600 to-secondary-600 relative overflow-hidden">
+            {/* Modal Zoom */}
+            {selectedImage && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in"
+                    onClick={() => setSelectedImage(null)}
+                >
+                    <div className="relative max-w-3xl max-h-[90vh] animate-scale-in" onClick={(e) => e.stopPropagation()}>
+                        <img
+                            src={selectedImage}
+                            alt="Zoom"
+                            className="max-w-full max-h-[80vh] rounded-2xl shadow-2xl object-contain bg-white"
+                        />
+                        <button
+                            className="absolute -top-4 -right-4 w-10 h-10 bg-white text-gray-900 rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 transition-colors text-2xl font-bold"
+                            onClick={() => setSelectedImage(null)}
+                        >
+                            ×
+                        </button>
+                    </div>
+                </div>
+            )}
+
             {/* Decorative */}
             <div className="absolute top-0 left-0 w-full h-full opacity-10">
                 <div className="absolute top-10 left-10 w-40 h-40 border border-white rounded-full"></div>
@@ -401,11 +426,19 @@ function TestimonialsSection() {
                                 "{testimonial.content}"
                             </p>
                             <div className="flex items-center space-x-4">
-                                <img
-                                    src={testimonial.image}
-                                    alt={testimonial.author}
-                                    className="w-12 h-12 rounded-full object-cover border-2 border-white/30"
-                                />
+                                <div
+                                    className="cursor-pointer relative group"
+                                    onClick={() => setSelectedImage(testimonial.image)}
+                                >
+                                    <img
+                                        src={testimonial.image}
+                                        alt={testimonial.author}
+                                        className="w-12 h-12 rounded-full object-cover border-2 border-white/30 group-hover:border-white transition-colors"
+                                    />
+                                    <div className="absolute inset-0 rounded-full bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <span className="text-white text-xs">🔍</span>
+                                    </div>
+                                </div>
                                 <div>
                                     <div className="text-white font-semibold">{testimonial.author}</div>
                                     <div className="text-white/60 text-sm">{testimonial.role}</div>

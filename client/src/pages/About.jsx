@@ -12,7 +12,8 @@ import {
     Building2,
     Globe,
     AlertTriangle,
-    Shield
+    Shield,
+    Stethoscope
 } from 'lucide-react'
 
 function About() {
@@ -185,13 +186,26 @@ function About() {
                                         </p>
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-primary-200 mb-2 uppercase tracking-wide text-sm"> Double Objectif Général</h4>
-                                        <p className="text-white/90 leading-relaxed">
-                                            Contribuer d'ici 2030 à l'amélioration du bien-être de la femme médecin et des étudiantes de dernière année de médecine. .
-                                        </p>
-                                        <p className="text-white/90 leading-relaxed">
-                                            contribuer d'ici 2030 à l'amélioration de la santé de la population Générale .
-                                        </p>
+                                        <h4 className="font-bold text-primary-200 mb-4 uppercase tracking-wide text-sm"> Double Objectif Général</h4>
+                                        <div className="space-y-4">
+                                            <div className="flex items-start">
+                                                <div className="bg-white/20 p-2 rounded-lg mr-3 flex-shrink-0">
+                                                    <Stethoscope className="text-white" size={20} />
+                                                </div>
+                                                <p className="text-white/90 leading-relaxed text-sm">
+                                                    Contribuer d'ici 2030 à l'amélioration du bien-être de la femme médecin et des étudiantes de dernière année de médecine.
+                                                </p>
+                                            </div>
+
+                                            <div className="flex items-start">
+                                                <div className="bg-white/20 p-2 rounded-lg mr-3 flex-shrink-0">
+                                                    <Users className="text-white" size={20} />
+                                                </div>
+                                                <p className="text-white/90 leading-relaxed text-sm">
+                                                    Contribuer d'ici 2030 à l'amélioration de la santé de la population générale.
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -228,8 +242,8 @@ function About() {
                                             Alignement complet avec la Stratégie Nationale de Développement 2020-2030 du Cameroun pour un impact durable.
                                         </p>
 
-                                        <h5 className="font-bold text-gray-900 text-lg mb-2">Stratégie sectorielle de la Santé(SSS 2020-2030)</h5>
-                                        <P>Alignement complet avec la SSS 2020-2030 pour promouvoir les modes de vie saint et améliorer l'accès au service de santé.  </P>
+                                        <h5 className="font-bold text-gray-900 text-lg mb-2">Stratégie sectorielle de la Santé (SSS 2020-2030)</h5>
+                                        <p className="text-gray-600">Alignement complet avec la SSS 2020-2030 pour promouvoir les modes de vie sains et améliorer l'accès au service de santé.</p>
                                     </div>
                                 </div>
                             </div>
@@ -261,7 +275,7 @@ function About() {
                                     <Users size={20} />
                                 </div>
                                 <h4 className="font-bold text-gray-900 mb-2">Conseil d'Administration</h4>
-                                <p className="text-sm text-gray-600">definir la stratégie et supervisé le comité executif.</p>
+                                <p className="text-sm text-gray-600">Définir la stratégie et superviser le comité exécutif.</p>
                             </div>
 
                             {/* Comité Exécutif */}

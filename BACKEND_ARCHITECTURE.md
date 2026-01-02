@@ -51,6 +51,20 @@ Gestion du contenu dynamique : Événements, Comptes-rendus, etc.
 | `author` | `TEXT` | ✅ | Auteur affiché (ex: "Comité Exécutif"). |
 | `slug` | `TEXT` | ✅ | URL friendly (ex: `plan-strategique-2025`). Unique. |
 
+### D. Table `contact_messages` (Formulaire Contact) [NOUVEAU]
+Boîte de réception des messages envoyés depuis le site.
+
+| Colonne | Type | Requis | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | **P.K** | Auto-gen `gen_random_uuid()`. |
+| `created_at` | `TIMESTAMPTZ` | ✅ | Date d'envoi. |
+| `name` | `TEXT` | ✅ | Nom de l'expéditeur. |
+| `email` | `TEXT` | ✅ | Email de contact. |
+| `phone` | `TEXT` | ❌ | Téléphone (Optionnel). |
+| `subject` | `TEXT` | ✅ | Sujet du message (ex: 'Partenariat'). |
+| `message` | `TEXT` | ✅ | Corps du message. |
+| `is_read` | `BOOLEAN` | ✅ | Statut de lecture (Default: `false`). |
+
 ---
 
 ## 2. � Administration & Validation
@@ -71,6 +85,12 @@ Actuellement, l'administration est gérée via une page spéciale protégée par
 1.  **Création** : L'admin remplit un formulaire (Titre, Catégorie, Image, Texte).
 2.  **Publication** : Insertion dans la table `articles`.
 3.  **Affichage** : La page `/actualites` (`News.jsx`) récupère tous les articles triés par date.
+
+### Workflow Messagerie (Contact)
+1.  **Réception** : Un visiteur remplit le formulaire sur `/contact` -> Insertion dans `contact_messages`.
+2.  **Notification** : (Optionnel) Envoi d'un email d'alerte à l'admin.
+3.  **Traitement** : L'admin consulte les messages non-lus sur le Dashboard.
+4.  **Archivage** : L'admin marque le message comme "Lu" (`is_read = true`).
 
 ---
 
@@ -105,6 +125,9 @@ Actuellement, l'administration est gérée via une page spéciale protégée par
 *   `GET /api/articles/:slug` : Détail d'un article.
 *   `POST /api/admin/articles` : Création (Protected, Admin Token required).
 *   `PUT /api/admin/members/:id/approve` : Validation d'un membre.
+*   `POST /api/contact` : Réception d'un message (Public).
+*   `GET /api/admin/messages` : Liste des messages (Admin only).
+*   `PUT /api/admin/messages/:id/read` : Marquer comme lu (Admin only).
 
 ### Architecture Dossiers Recommandée (Node.js)
 ```

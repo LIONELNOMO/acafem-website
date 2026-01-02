@@ -14,7 +14,9 @@ import {
     CheckCircle,
     AlertCircle,
     Upload,
-    Users
+    Users,
+    MessageSquare,
+    Mail
 } from 'lucide-react'
 
 // Mot de passe admin (à changer en production !)
@@ -36,9 +38,11 @@ function Admin() {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
     const [articles, setArticles] = useState([])
+    const [messages, setMessages] = useState([])
     const [loading, setLoading] = useState(false)
     const [editingId, setEditingId] = useState(null)
     const [uploading, setUploading] = useState(false)
+    const [activeTab, setActiveTab] = useState('articles') // 'articles' or 'messages'
 
     // Formulaire
     const [formData, setFormData] = useState({
@@ -56,6 +60,7 @@ function Admin() {
         if (auth === 'true') {
             setIsAuthenticated(true)
             fetchArticles()
+            fetchMessages()
         }
     }, [])
 
@@ -76,6 +81,32 @@ function Admin() {
         setLoading(false)
     }
 
+    // Récupérer les messages
+    const fetchMessages = async () => {
+        const { data, error } = await supabase
+            .from('contact_messages')
+            .select('*')
+            .order('created_at', { ascending: false })
+
+        if (error) {
+            console.error('Erreur messages:', error)
+        } else {
+            setMessages(data || [])
+        }
+    }
+
+    // Marquer message comme lu
+    const markAsRead = async (id, currentStatus) => {
+        const { error } = await supabase
+            .from('contact_messages')
+            .update({ is_read: !currentStatus })
+            .eq('id', id)
+
+        if (!error) {
+            fetchMessages()
+        }
+    }
+
     // Connexion
     const handleLogin = (e) => {
         e.preventDefault()
@@ -83,7 +114,10 @@ function Admin() {
             setIsAuthenticated(true)
             localStorage.setItem('acafem_admin_auth', 'true')
             setError('')
+            localStorage.setItem('acafem_admin_auth', 'true')
+            setError('')
             fetchArticles()
+            fetchMessages()
         } else {
             setError('Mot de passe incorrect')
         }
@@ -358,6 +392,25 @@ function Admin() {
                             <Users size={18} className="mr-2" />
                             Gérer les Membres
                         </Link>
+                        <div className="flex bg-gray-100 p-1 rounded-lg">
+                            <button
+                                onClick={() => setActiveTab('articles')}
+                                className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeTab === 'articles' ? 'bg-white text-primary-600 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                            >
+                                Actualités
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('messages')}
+                                className={`px-4 py-2 rounded-md text-sm font-medium transition-all flex items-center ${activeTab === 'messages' ? 'bg-white text-primary-600 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+                            >
+                                Messages
+                                {messages.filter(m => !m.is_read).length > 0 && (
+                                    <span className="ml-2 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
+                                        {messages.filter(m => !m.is_read).length}
+                                    </span>
+                                )}
+                            </button>
+                        </div>
                         <button
                             onClick={handleSeedData}
                             className="bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
@@ -376,225 +429,306 @@ function Admin() {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="grid lg:grid-cols-3 gap-8">
-                    {/* Formulaire */}
-                    <div className="lg:col-span-1">
-                        <div className="bg-white rounded-2xl p-6 shadow-sm sticky top-40">
-                            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center">
-                                {editingId ? <Edit className="mr-2 text-yellow-500" /> : <PlusCircle className="mr-2 text-green-500" />}
-                                {editingId ? 'Modifier l\'article' : 'Nouvel article'}
-                            </h2>
+                {activeTab === 'articles' ? (
+                    <div className="grid lg:grid-cols-3 gap-8">
+                        {/* Formulaire Article (existant) */}
+                        <div className="lg:col-span-1">
+                            <div className="bg-white rounded-2xl p-6 shadow-sm sticky top-40">
+                                <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center">
+                                    {editingId ? <Edit className="mr-2 text-yellow-500" /> : <PlusCircle className="mr-2 text-green-500" />}
+                                    {editingId ? 'Modifier l\'article' : 'Nouvel article'}
+                                </h2>
 
-                            {error && (
-                                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm flex items-center">
-                                    <AlertCircle size={16} className="mr-2" />
-                                    {error}
-                                </div>
-                            )}
+                                {error && (
+                                    <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm flex items-center">
+                                        <AlertCircle size={16} className="mr-2" />
+                                        {error}
+                                    </div>
+                                )}
 
-                            {success && (
-                                <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-600 text-sm flex items-center">
-                                    <CheckCircle size={16} className="mr-2" />
-                                    {success}
-                                </div>
-                            )}
+                                {success && (
+                                    <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-600 text-sm flex items-center">
+                                        <CheckCircle size={16} className="mr-2" />
+                                        {success}
+                                    </div>
+                                )}
 
-                            <form onSubmit={handleSubmit} className="space-y-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Titre *</label>
-                                    <input
-                                        type="text"
-                                        value={formData.title}
-                                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                                        placeholder="Titre de l'article"
-                                    />
-                                </div>
+                                <form onSubmit={handleSubmit} className="space-y-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Titre *</label>
+                                        <input
+                                            type="text"
+                                            value={formData.title}
+                                            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                            placeholder="Titre de l'article"
+                                        />
+                                    </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Résumé *</label>
-                                    <textarea
-                                        value={formData.excerpt}
-                                        onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                                        rows={3}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                                        placeholder="Court résumé de l'article"
-                                    />
-                                </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Résumé *</label>
+                                        <textarea
+                                            value={formData.excerpt}
+                                            onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+                                            rows={3}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                            placeholder="Court résumé de l'article"
+                                        />
+                                    </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Contenu complet</label>
-                                    <textarea
-                                        value={formData.content}
-                                        onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                                        rows={6}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                                        placeholder="Texte complet de l'article..."
-                                    />
-                                </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Contenu complet</label>
+                                        <textarea
+                                            value={formData.content}
+                                            onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                                            rows={6}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                            placeholder="Texte complet de l'article..."
+                                        />
+                                    </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
-                                    <select
-                                        value={formData.category}
-                                        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                                    >
-                                        {categories.map(cat => (
-                                            <option key={cat} value={cat}>{cat}</option>
-                                        ))}
-                                    </select>
-                                </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
+                                        <select
+                                            value={formData.category}
+                                            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                        >
+                                            {categories.map(cat => (
+                                                <option key={cat} value={cat}>{cat}</option>
+                                            ))}
+                                        </select>
+                                    </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                                        <Image size={14} className="inline mr-1" />
-                                        Image de l'article
-                                    </label>
-
-                                    {/* Bouton Upload */}
-                                    <div className="mb-3">
-                                        <label className="flex items-center justify-center w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary-400 hover:bg-primary-50 transition-colors">
-                                            <Upload size={20} className="mr-2 text-gray-500" />
-                                            <span className="text-sm text-gray-600">
-                                                {uploading ? 'Téléchargement...' : 'Cliquez pour uploader une image'}
-                                            </span>
-                                            <input
-                                                type="file"
-                                                accept="image/*"
-                                                onChange={handleImageUpload}
-                                                className="hidden"
-                                                disabled={uploading}
-                                            />
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            <Image size={14} className="inline mr-1" />
+                                            Image de l'article
                                         </label>
+
+                                        {/* Bouton Upload */}
+                                        <div className="mb-3">
+                                            <label className="flex items-center justify-center w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary-400 hover:bg-primary-50 transition-colors">
+                                                <Upload size={20} className="mr-2 text-gray-500" />
+                                                <span className="text-sm text-gray-600">
+                                                    {uploading ? 'Téléchargement...' : 'Cliquez pour uploader une image'}
+                                                </span>
+                                                <input
+                                                    type="file"
+                                                    accept="image/*"
+                                                    onChange={handleImageUpload}
+                                                    className="hidden"
+                                                    disabled={uploading}
+                                                />
+                                            </label>
+                                        </div>
+
+                                        {/* Séparateur OU */}
+                                        <div className="flex items-center mb-3">
+                                            <div className="flex-1 border-t border-gray-200"></div>
+                                            <span className="px-3 text-xs text-gray-400 uppercase">ou</span>
+                                            <div className="flex-1 border-t border-gray-200"></div>
+                                        </div>
+
+                                        {/* Champ URL */}
+                                        <input
+                                            type="url"
+                                            value={formData.image}
+                                            onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                            placeholder="Coller l'URL d'une image..."
+                                        />
+
+                                        {/* Aperçu de l'image */}
+                                        {formData.image && (
+                                            <div className="mt-3 relative">
+                                                <img
+                                                    src={formData.image}
+                                                    alt="Aperçu"
+                                                    className="w-full h-32 object-cover rounded-lg border"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setFormData({ ...formData, image: '' })}
+                                                    className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                                                >
+                                                    <X size={14} />
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
 
-                                    {/* Séparateur OU */}
-                                    <div className="flex items-center mb-3">
-                                        <div className="flex-1 border-t border-gray-200"></div>
-                                        <span className="px-3 text-xs text-gray-400 uppercase">ou</span>
-                                        <div className="flex-1 border-t border-gray-200"></div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Auteur *</label>
+                                        <input
+                                            type="text"
+                                            value={formData.author}
+                                            onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                                            placeholder="Nom de l'auteur"
+                                        />
                                     </div>
 
-                                    {/* Champ URL */}
-                                    <input
-                                        type="url"
-                                        value={formData.image}
-                                        onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                                        placeholder="Coller l'URL d'une image..."
-                                    />
-
-                                    {/* Aperçu de l'image */}
-                                    {formData.image && (
-                                        <div className="mt-3 relative">
-                                            <img
-                                                src={formData.image}
-                                                alt="Aperçu"
-                                                className="w-full h-32 object-cover rounded-lg border"
-                                            />
+                                    <div className="flex gap-2 pt-4">
+                                        <button
+                                            type="submit"
+                                            disabled={loading}
+                                            className="flex-1 py-3 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors disabled:opacity-50 flex items-center justify-center"
+                                        >
+                                            <Save size={18} className="mr-2" />
+                                            {loading ? 'En cours...' : (editingId ? 'Modifier' : 'Publier')}
+                                        </button>
+                                        {editingId && (
                                             <button
                                                 type="button"
-                                                onClick={() => setFormData({ ...formData, image: '' })}
-                                                className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                                                onClick={cancelEdit}
+                                                className="px-4 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition-colors"
                                             >
-                                                <X size={14} />
+                                                <X size={18} />
                                             </button>
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Auteur *</label>
-                                    <input
-                                        type="text"
-                                        value={formData.author}
-                                        onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                                        placeholder="Nom de l'auteur"
-                                    />
-                                </div>
-
-                                <div className="flex gap-2 pt-4">
-                                    <button
-                                        type="submit"
-                                        disabled={loading}
-                                        className="flex-1 py-3 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors disabled:opacity-50 flex items-center justify-center"
-                                    >
-                                        <Save size={18} className="mr-2" />
-                                        {loading ? 'En cours...' : (editingId ? 'Modifier' : 'Publier')}
-                                    </button>
-                                    {editingId && (
-                                        <button
-                                            type="button"
-                                            onClick={cancelEdit}
-                                            className="px-4 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition-colors"
-                                        >
-                                            <X size={18} />
-                                        </button>
-                                    )}
-                                </div>
-                            </form>
+                                        )}
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Liste des articles */}
-                    <div className="lg:col-span-2">
-                        <h2 className="text-lg font-bold text-gray-900 mb-6">
-                            Articles publiés ({articles.length})
-                        </h2>
+                        {/* Liste des articles */}
+                        <div className="lg:col-span-2">
+                            <h2 className="text-lg font-bold text-gray-900 mb-6">
+                                Articles publiés ({articles.length})
+                            </h2>
 
-                        {loading && <p className="text-gray-500">Chargement...</p>}
+                            {loading && <p className="text-gray-500">Chargement...</p>}
 
-                        <div className="space-y-4">
-                            {articles.map((article) => (
-                                <div key={article.id} className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex gap-4">
-                                    {article.image && (
-                                        <img
-                                            src={article.image}
-                                            alt={article.title}
-                                            className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
-                                        />
-                                    )}
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex items-start justify-between">
-                                            <div>
-                                                <span className="text-xs font-bold text-primary-600 uppercase">{article.category}</span>
-                                                <h3 className="font-bold text-gray-900 line-clamp-1">{article.title}</h3>
-                                                <p className="text-sm text-gray-500 line-clamp-2 mt-1">{article.excerpt}</p>
-                                                <p className="text-xs text-gray-400 mt-2">
-                                                    Par {article.author} • {new Date(article.created_at).toLocaleDateString('fr-FR')}
-                                                </p>
-                                            </div>
-                                            <div className="flex gap-2 flex-shrink-0">
-                                                <button
-                                                    onClick={() => handleEdit(article)}
-                                                    className="p-2 text-gray-400 hover:text-yellow-600 hover:bg-yellow-50 rounded-lg transition-colors"
-                                                >
-                                                    <Edit size={18} />
-                                                </button>
-                                                <button
-                                                    onClick={() => handleDelete(article.id)}
-                                                    className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                                >
-                                                    <Trash2 size={18} />
-                                                </button>
+                            <div className="space-y-4">
+                                {articles.map((article) => (
+                                    <div key={article.id} className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex gap-4">
+                                        {article.image && (
+                                            <img
+                                                src={article.image}
+                                                alt={article.title}
+                                                className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
+                                            />
+                                        )}
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-start justify-between">
+                                                <div>
+                                                    <span className="text-xs font-bold text-primary-600 uppercase">{article.category}</span>
+                                                    <h3 className="font-bold text-gray-900 line-clamp-1">{article.title}</h3>
+                                                    <p className="text-sm text-gray-500 line-clamp-2 mt-1">{article.excerpt}</p>
+                                                    <p className="text-xs text-gray-400 mt-2">
+                                                        Par {article.author} • {new Date(article.created_at).toLocaleDateString('fr-FR')}
+                                                    </p>
+                                                </div>
+                                                <div className="flex gap-2 flex-shrink-0">
+                                                    <button
+                                                        onClick={() => handleEdit(article)}
+                                                        className="p-2 text-gray-400 hover:text-yellow-600 hover:bg-yellow-50 rounded-lg transition-colors"
+                                                    >
+                                                        <Edit size={18} />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDelete(article.id)}
+                                                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                    >
+                                                        <Trash2 size={18} />
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
 
-                            {articles.length === 0 && !loading && (
-                                <div className="text-center py-12 bg-white rounded-2xl border border-dashed border-gray-300">
-                                    <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                                    <p className="text-gray-500">Aucun article publié pour le moment</p>
-                                    <p className="text-sm text-gray-400">Créez votre premier article !</p>
+                                {articles.length === 0 && !loading && (
+                                    <div className="text-center py-12 bg-white rounded-2xl border border-dashed border-gray-300">
+                                        <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                                        <p className="text-gray-500">Aucun article publié pour le moment</p>
+                                        <p className="text-sm text-gray-400">Créez votre premier article !</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    // Onglet MESSAGES
+                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div className="p-6 border-b border-gray-100">
+                            <h2 className="text-xl font-bold text-gray-900 flex items-center">
+                                <MessageSquare className="mr-2 text-primary-500" />
+                                Boîte de réception ({messages.length})
+                            </h2>
+                        </div>
+                        <div className="divide-y divide-gray-100">
+                            {messages.length === 0 ? (
+                                <div className="p-12 text-center text-gray-500">
+                                    <Mail className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                                    Aucun message reçu pour le moment.
                                 </div>
+                            ) : (
+                                messages.map((msg) => (
+                                    <div key={msg.id} className={`p-6 hover:bg-gray-50 transition-colors ${!msg.is_read ? 'bg-blue-50/50' : ''}`}>
+                                        <div className="flex justify-between items-start mb-2">
+                                            <div className="flex items-center gap-3">
+                                                <h3 className={`font-bold text-lg ${!msg.is_read ? 'text-blue-700' : 'text-gray-900'}`}>
+                                                    {msg.subject}
+                                                </h3>
+                                                {!msg.is_read && (
+                                                    <span className="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-0.5 rounded-full">
+                                                        Nouveau
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <span className="text-sm text-gray-500">
+                                                {new Date(msg.created_at).toLocaleDateString('fr-FR', {
+                                                    day: 'numeric',
+                                                    month: 'long',
+                                                    year: 'numeric',
+                                                    hour: '2-digit',
+                                                    minute: '2-digit'
+                                                })}
+                                            </span>
+                                        </div>
+
+                                        <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
+                                            <span className="font-medium text-gray-900">{msg.name}</span>
+                                            {msg.email && <span>&bull; {msg.email}</span>}
+                                            {msg.phone && <span>&bull; {msg.phone}</span>}
+                                        </div>
+
+                                        <p className="text-gray-700 leading-relaxed bg-gray-50 p-4 rounded-lg border border-gray-100 mb-4">
+                                            {msg.message}
+                                        </p>
+
+                                        <div className="flex justify-end gap-3">
+                                            <a
+                                                href={`mailto:${msg.email}`}
+                                                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                            >
+                                                Répondre par email
+                                            </a>
+                                            <button
+                                                onClick={() => markAsRead(msg.id, msg.is_read)}
+                                                className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center ${msg.is_read
+                                                    ? 'text-gray-500 hover:text-gray-700'
+                                                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                                                    }`}
+                                            >
+                                                {msg.is_read ? (
+                                                    <>Marquer comme non-lu</>
+                                                ) : (
+                                                    <>
+                                                        <CheckCircle size={16} className="mr-2" />
+                                                        Marquer comme lu
+                                                    </>
+                                                )}
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))
                             )}
                         </div>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     )
